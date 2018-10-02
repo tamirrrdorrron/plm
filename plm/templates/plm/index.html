@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Styles</title>
+    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
+</head>
+<body>
+
+<img src="http://www.citycross.com.au/wp-content/uploads/2014/10/Bardot-Logo-300x135.gif" alt="bardot logo" width="120">
+
+<p>
+
+<form action="/" method="POST">
+
+    {% csrf_token %}
+
+        <label for="list_designers">Designer:</label>
+
+        <select name="list_designers">
+
+            <option value="0">Show all</option>
+
+            {% for designer in designers %}
+
+            <option value= {{ designer.id }} > {{ designer.name }} </option>
+
+            {% endfor %}
+
+        </select>
+
+        <input type="submit" value="Submit">
+
+    </form>
+
+</p>
+
+<table border="1">
+
+    <thead>
+
+        <th>Code</th>
+
+        <th>Description</th>
+
+        <th>Designer</th>
+
+        <th>Pattern Maker</th>
+
+        <th>Production Coordinator</th>
+
+        <th>Materials</th>
+
+    </thead>
+
+{% for itr in qs %}
+
+    <tr>
+
+        <td>{{ itr.code }}</td>
+
+        <td>{{ itr.short_description }}</td>
+
+        <td>{{ itr.designer.name }}</td>
+
+        <td>{{ itr.pattern_maker.name }}</td>
+
+        <td>{{ itr.production_coordinator.name }}</td>
+
+        <td>
+
+            {% for material in itr.material.all %}
+
+            <li> {{ material.description }} </li>
+
+            {% endfor %}
+
+        </td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+main/__pycache__/
+plm/__pycache__/
+plm/migrations/
+venv/
+db.sqlite3
+.idea/
