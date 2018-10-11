@@ -10,6 +10,14 @@ class Material(models.Model):
         return "%s %s %s" % (self.code, self.description, self.colour)
 
 
+class Colourway(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return "%s %s" % (self.code, self.name)
+
+
 class Designer(models.Model):
     name = models.CharField(max_length=100, blank=False)
 
@@ -36,6 +44,7 @@ class Product(models.Model):
     short_description = models.CharField(max_length=255)
     long_description = models.CharField(max_length=1000)
     material = models.ManyToManyField(Material)
+    colourway = models.ManyToManyField(Colourway)
     designer = models.ForeignKey(Designer, on_delete=models.PROTECT)
     production_coordinator = models.ForeignKey(ProductionCoordinator, on_delete=models.PROTECT)
     pattern_maker = models.ForeignKey(PatternMaker, on_delete=models.PROTECT)

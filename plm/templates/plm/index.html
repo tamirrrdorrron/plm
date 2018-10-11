@@ -45,6 +45,8 @@
 
         <th>Production Coordinator</th>
 
+        <th>Colourways</th>
+
         <th>Materials</th>
 
     </thead>
@@ -62,6 +64,16 @@
         <td>{{ itr.pattern_maker.name }}</td>
 
         <td>{{ itr.production_coordinator.name }}</td>
+
+        <td>
+
+            {% for colourway in itr.colourway.all %}
+
+            <li> {{ colourway.name }} </li>
+
+            {% endfor %}
+
+        </td>
 
         <td>
 
