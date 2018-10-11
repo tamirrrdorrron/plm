@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home - Styles</title>
-    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
-</head>
+{% extends 'plm/base.html' %}
+
+{% block content %}
 <body>
 
 <img src="http://www.citycross.com.au/wp-content/uploads/2014/10/Bardot-Logo-300x135.gif" alt="bardot logo" width="120">
@@ -58,7 +53,7 @@
 
     <tr>
 
-        <td>{{ itr.code }}</td>
+        <td><a href="/style/{{ itr.code }}" target="_blank">{{ itr.code }}</a></td>
 
         <td>{{ itr.short_description }}</td>
 
@@ -85,5 +80,4 @@
 </table>
 
 </body>
-
-</html>
+{% endblock %}
