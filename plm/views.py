@@ -10,3 +10,8 @@ def index(request):
         if selection != '0':
             qs = qs.filter(designer=selection)
     return render(request, 'plm/index.html', {'qs': qs, 'designers': designers})
+
+
+def style(request, style_code):
+    dict = {'style_code': style_code}
+    return render(request, 'plm/style.html', {'dict': dict})
