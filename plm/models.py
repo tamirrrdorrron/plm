@@ -1,23 +1,6 @@
 from django.db import models
 
 
-class Material(models.Model):
-    code = models.CharField(max_length=30, unique=True)
-    description = models.CharField(max_length=255)
-    colour = models.CharField(max_length=100)
-
-    def __str__(self):
-        return "%s %s %s" % (self.code, self.description, self.colour)
-
-
-class Colourway(models.Model):
-    code = models.CharField(max_length=50, unique=True)
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return "%s %s" % (self.code, self.name)
-
-
 class Designer(models.Model):
     name = models.CharField(max_length=100, blank=False)
 
@@ -39,15 +22,38 @@ class ProductionCoordinator(models.Model):
         return "%s" % self.name
 
 
+class Colourway(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Season(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     code = models.CharField(max_length=30, unique=True)
     short_description = models.CharField(max_length=255)
     long_description = models.CharField(max_length=1000)
-    material = models.ManyToManyField(Material)
-    colourway = models.ManyToManyField(Colourway)
     designer = models.ForeignKey(Designer, on_delete=models.PROTECT)
     production_coordinator = models.ForeignKey(ProductionCoordinator, on_delete=models.PROTECT)
     pattern_maker = models.ForeignKey(PatternMaker, on_delete=models.PROTECT)
 
     def __str__(self):
         return "%s %s" % (self.code, self.short_description)
+
+
+class SeasonalColourway(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    season = models.ForeignKey(Season, on_delete=models.PROTECT)
+    colourway = models.ForeignKey(Colourway, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "%s %s %s" % (self.product, self.season, self.colourway)

@@ -12,9 +12,48 @@
 
 <p>
 
-style number here:
+<h3>Style Info</h3>
 
-{{ dict.style_code }}
+{% for info in productInfo %}
+
+    Code: {{ info.code }}<br>
+
+    Description: {{ info.short_description }}<br>
+
+    Designer: {{ info.designer__name }}<br>
+
+    Production Coordinator: {{ info.production_coordinator__name }}<br>
+
+    Pattern Maker: {{ info.pattern_maker__name }}
+
+{% endfor %}
+
+
+<h3>Colourways</h3>
+
+<table border="1">
+
+    <thead>
+
+        <th>Colourway</th>
+
+        <th>Season</th>
+
+    </thead>
+
+{% for itr in seasonalColourways %}
+
+    <tr>
+
+        <td>{{ itr.colourway__name }}</td>
+
+        <td>{{ itr.season__name }}</td>
+
+{% endfor %}
+
+    </tr>
+
+</table>
 
 </p>
 

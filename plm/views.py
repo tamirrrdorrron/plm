@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Product, Designer
+from .models import Product, Designer, SeasonalColourway
 
 
 def index(request):
@@ -13,5 +13,12 @@ def index(request):
 
 
 def style(request, style_code):
-    dict = {'style_code': style_code}
-    return render(request, 'plm/style.html', {'dict': dict})
+    sc = SeasonalColourway.objects.filter(product__code=style_code).values('colourway__name', 'season__name')
+    pi = Product.objects.filter(code=style_code).values(
+        'code',
+        'short_description',
+        'designer__name',
+        'production_coordinator__name',
+        'pattern_maker__name'
+    )
+    return render(request, 'plm/style.html', {'productInfo': pi, 'seasonalColourways': sc})
