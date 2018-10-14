@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ colourway.colourway__name }} - {{ styleDict.style_code }}</title>
+    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
+</head>
+
+{% block content %}
+<body>
+
+<p>
+
+<h3>Style</h3>
+
+{{ styleDict.style_code }}<br>
+
+<h4>Bill of Materials - {{ colourway.colourway__name }} {{ colourway.season__name }}</h4>
+
+{% for material in bom %}
+
+    {{ material.material__name }}<br>
+
+{% endfor %}
+
+</p>
+
+</body>
+{% endblock %}
+
+</html>
