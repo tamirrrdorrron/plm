@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Colourways</title>
+    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
+</head>
+
+{% block content %}
+<body>
+
+<h2>Colourways</h2>
+
+<table border="1">
+
+    <thead>
+
+        <th>Code</th>
+
+        <th>Name</th>
+
+    </thead>
+
+        {% for colourway in colourways %}
+
+    <tr>
+
+        <td>{{ colourway.code }}</td>
+
+        <td>{{ colourway.name }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</body>
+{% endblock %}
+
+</html>

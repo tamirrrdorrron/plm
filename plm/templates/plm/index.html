@@ -1,11 +1,25 @@
-{% extends 'plm/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Styles</title>
+    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
+</head>
 
 {% block content %}
+
 <body>
 
 <img src="http://www.citycross.com.au/wp-content/uploads/2014/10/Bardot-Logo-300x135.gif" alt="bardot logo" width="120">
 
+<h3><a href="/materials" target="_blank">Materials</a></h3>
+
+<h3><a href="/colourways" target="_blank">Colourways</a></h3>
+
 <p>
+
+<h3>Styles</h3>
 
 <form action="/" method="POST">
 
@@ -47,19 +61,19 @@
 
     </thead>
 
-{% for itr in qs %}
+{% for product in products %}
 
     <tr>
 
-        <td><a href="/style/{{ itr.code }}" target="_blank">{{ itr.code }}</a></td>
+        <td><a href="/style/{{ product.code }}" target="_blank">{{ product.code }}</a></td>
 
-        <td>{{ itr.short_description }}</td>
+        <td>{{ product.short_description }}</td>
 
-        <td>{{ itr.designer.name }}</td>
+        <td>{{ product.designer.name }}</td>
 
-        <td>{{ itr.pattern_maker.name }}</td>
+        <td>{{ product.pattern_maker.name }}</td>
 
-        <td>{{ itr.production_coordinator.name }}</td>
+        <td>{{ product.production_coordinator.name }}</td>
 
         {% endfor %}
 
@@ -68,4 +82,7 @@
 </table>
 
 </body>
+
 {% endblock %}
+
+</html>

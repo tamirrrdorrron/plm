@@ -62,6 +62,7 @@ class SeasonalColourway(models.Model):
 class Material(models.Model):
     code = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='materials')
 
     def __str__(self):
         return self.name
@@ -72,4 +73,7 @@ class BOM(models.Model):
     seasonal_colourway = models.ForeignKey(SeasonalColourway, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "%s %s %s" % (self.seasonal_colourway.product, self.seasonal_colourway.season, self.seasonal_colourway.colourway)
+        return "%s %s %s" % (self.seasonal_colourway.product,
+                             self.seasonal_colourway.season,
+                             self.seasonal_colourway.colourway
+                             )

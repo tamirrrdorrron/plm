@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Materials</title>
+    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
+</head>
+
+{% block content %}
+<body>
+
+<h2>Materials</h2>
+
+<table border="1">
+
+    <thead>
+
+        <th>Photo</th>
+
+        <th>Code</th>
+
+        <th>Name</th>
+
+    </thead>
+
+        {% for material in materials %}
+
+    <tr>
+
+        <td><img src="{{ material.photo.url}}" width="120"></td>
+
+        <td>{{ material.code }}</td>
+
+        <td>{{ material.name }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</body>
+{% endblock %}
+
+</html>
