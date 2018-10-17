@@ -1,14 +1,10 @@
+{% extends 'plm/base.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ styleDict.style_code }}</title>
-    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
-</head>
 
 {% block content %}
-<body>
+
+<div class="container-fluid">
 
 <p>
 
@@ -55,9 +51,8 @@
 
 </table>
 
+</div>
+
 </p>
 
-</body>
 {% endblock %}
-
-</html>

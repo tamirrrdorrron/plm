@@ -1,25 +1,12 @@
+{% extends 'plm/base.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Styles</title>
-    <link rel="stylesheet" href="{% static 'css/plm.css' %}">
-</head>
 
 {% block content %}
 
-<body>
-
-<img src="http://www.citycross.com.au/wp-content/uploads/2014/10/Bardot-Logo-300x135.gif" alt="bardot logo" width="120">
-
-<h3><a href="/materials" target="_blank">Materials</a></h3>
-
-<h3><a href="/colourways" target="_blank">Colourways</a></h3>
-
 <p>
 
-<h3>Styles</h3>
+<div class="container-fluid">
 
 <form action="/" method="POST">
 
@@ -42,8 +29,6 @@
         <input type="submit" value="Submit">
 
     </form>
-
-</p>
 
 <table border="1">
 
@@ -81,8 +66,8 @@
 
 </table>
 
-</body>
+</div>
+
+</p>
 
 {% endblock %}
-
-</html>
