@@ -45,6 +45,7 @@ class Product(models.Model):
     designer = models.ForeignKey(Designer, on_delete=models.PROTECT)
     production_coordinator = models.ForeignKey(ProductionCoordinator, on_delete=models.PROTECT)
     pattern_maker = models.ForeignKey(PatternMaker, on_delete=models.PROTECT)
+    photo = models.ImageField(upload_to='styles')
 
     def __str__(self):
         return "%s %s" % (self.code, self.short_description)

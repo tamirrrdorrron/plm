@@ -44,6 +44,8 @@
 
         <th>Code</th>
 
+        <th>Image</th>
+
         <th>Description</th>
 
         <th>Designer</th>
@@ -59,6 +61,8 @@
     <tr>
 
         <td><a href="/style/{{ product.code }}" target="_blank">{{ product.code }}</a></td>
+
+        <td><img src="{{ product.photo.url}}" width="60"></td>
 
         <td>{{ product.short_description }}</td>
 
