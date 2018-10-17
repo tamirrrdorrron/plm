@@ -8,13 +8,17 @@
 
 <div class="container-fluid">
 
+<p>
+
 <form action="/" method="POST">
 
     {% csrf_token %}
 
-        <label for="list_designers">Designer:</label>
+        <label for="list_designers">Select Designer</label>
 
-        <select name="list_designers">
+    <p>
+
+        <select class="custom-select" name="list_designers">
 
             <option value="0">Show all</option>
 
@@ -26,11 +30,15 @@
 
         </select>
 
-        <input type="submit" value="Submit">
+    </p>
+
+        <input class="btn btn-primary" type="submit" value="Submit">
 
     </form>
 
-<table border="1">
+</p>
+
+<table class="table" border="1">
 
     <thead>
 
