@@ -35,6 +35,7 @@ def style_colourway(request, style_code, colourway_id):
                              seasonal_colourway__id = colourway_id
                              ).values('seasonal_colourway__season__name',
                                       'material__name',
+                                      'material__code',
                                       'seasonal_colourway__product__code',
                                       'seasonal_colourway__colourway__name'
                                       )

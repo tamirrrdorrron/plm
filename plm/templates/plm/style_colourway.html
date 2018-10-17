@@ -10,15 +10,53 @@
 
 <h3>Style</h3>
 
-{{ styleDict.style_code }}<br>
+    <div class="container-fluid">
+
+        {{ styleDict.style_code }}
+
+    </div>
+
+<p>
 
 <h4>Bill of Materials - {{ colourway.colourway__name }} {{ colourway.season__name }}</h4>
 
-{% for material in bom %}
+<div class="container-fluid">
 
-    {{ material.material__name }}<br>
+<table class="table" border="1">
 
-{% endfor %}
+    <thead>
+
+        <th>Code</th>
+
+        <th>Name</th>
+
+    </thead>
+
+        {% for material in bom.all %}
+
+    <tr>
+
+        <td>{{ material.material__code }}</td>
+
+        <td>{{ material.material__name }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+
+</p>
+
+
+
+<!--{% for material in bom %}-->
+
+    <!--{{ material.material__name }}<br>-->
+
+<!--{% endfor %}-->
 
 </p>
 

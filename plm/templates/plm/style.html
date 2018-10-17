@@ -10,6 +10,9 @@
 
 <h3>Style Info</h3>
 
+    <div class="container-fluid">
+
+
 {% for info in productInfo %}
 
     Code: {{ info.code }}<br>
@@ -24,32 +27,40 @@
 
 {% endfor %}
 
+    </div>
+<p>
 
 <h3>Colourways</h3>
 
-<table class="table" border="1">
+    <div class="container-fluid">
 
-    <thead>
+        <table class="table" border="1">
 
-        <th>Colourway</th>
+            <thead>
 
-        <th>Season</th>
+                <th>Colourway</th>
 
-    </thead>
+                <th>Season</th>
 
-{% for itr in seasonalColourways %}
+            </thead>
 
-    <tr>
+        {% for itr in seasonalColourways %}
 
-        <td><a href="/style/{{ itr.product__code }}/colourway/{{ itr.id }}" target="_blank">{{ itr.colourway__name }}</a></td>
+            <tr>
 
-        <td>{{ itr.season__name }}</td>
+                <td><a href="/style/{{ itr.product__code }}/colourway/{{ itr.id }}" target="_blank">{{ itr.colourway__name }}</a></td>
 
-{% endfor %}
+                <td>{{ itr.season__name }}</td>
 
-    </tr>
+        {% endfor %}
 
-</table>
+            </tr>
+
+        </table>
+
+        </p>
+
+    </div>
 
 </div>
 
