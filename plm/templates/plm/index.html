@@ -6,7 +6,15 @@
 
 <p>
 
+    <div>
+
+
+
+    </div>
+
 <div class="container-fluid">
+
+            <a class="btn btn-primary" href="{% url 'product_new' %}" role="button">New Style</a>
 
 <p>
 
@@ -62,7 +70,7 @@
 
         <td><a href="/style/{{ product.code }}" target="_blank">{{ product.code }}</a></td>
 
-        <td><img src="{{ product.photo.url}}" width="60"></td>
+        <td><img src="{{ product.photo.url}}" width="35"></td>
 
         <td>{{ product.short_description }}</td>
 
