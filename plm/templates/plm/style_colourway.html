@@ -12,11 +12,24 @@
 
     <div class="container-fluid">
 
-        {{ styleDict.style_code }}
+        {{ styleDict.style_code }}<br><br>
+
+    <p>
+
+    <form method="POST" name="material_selection" class="form-group">{% csrf_token %}
+        <div>
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Add Material</button>
+    </form>
+
+    </p>
 
     </div>
 
 <p>
+
+
 
 <h4>Bill of Materials - {{ colourway.colourway__name }} {{ colourway.season__name }}</h4>
 
