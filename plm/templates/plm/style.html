@@ -57,15 +57,24 @@
 
                 <th>Season</th>
 
+                <th>Factory</th>
+
             </thead>
 
         {% for itr in seasonalColourways %}
 
             <tr>
 
-                <td><a href="/style/{{ itr.product__code }}/colourway/{{ itr.id }}" target="_blank">{{ itr.colourway__name }}</a></td>
+                <td><a href="/style/{{ itr.product__code }}/bom/{{ itr.bom }}" target="_blank">{{ itr.colourway__name }}</a></td>
 
                 <td>{{ itr.season__name }}</td>
+
+                <td>
+
+                    {{ itr.bom__name }}
+
+
+                </td>
 
         {% endfor %}
 

@@ -1,11 +1,35 @@
-from plm.models import BOM
+from plm.models import SeasonalColourway, Product
 
 
-#this view assumes that the BOM object already exists and you are just adding materials to it
-# def add_material_to_bom(bom_id, qs_material):
-#     bom = BOM.objects.filter(id=bom_id)
-#     bom[0].material.set(qs_material)
-#     return bom[0].material.all()
+def get_seasonal_colourway_information(style_code):
+    sc = SeasonalColourway.objects.filter(product__code=style_code).values(
+        'bom',
+        'bom__name',
+        'colourway__name',
+        'season__name',
+        'product__code')
+    return sc
+
+
+def get_product_information(style_code):
+    pi = Product.objects.filter(code=style_code).values(
+        'code',
+        'short_description',
+        'designer__name',
+        'production_coordinator__name',
+        'pattern_maker__name'
+    )
+    return pi
+
+
+def get_product_image(style_code):
+    image = Product.objects.filter(code=style_code)[0]
+    return image
+
+
+def get_style_code_dict(style_code):
+    style_dict = {'style_code': style_code}
+    return style_dict
 
 
 def add_bom(form, seasonal_colourway_id):
