@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Product, Designer, SeasonalColourway, BOM, Material, Colourway
 from .forms import ProductForm, SeasonalColourwayForm, BOMForm
+from .helper import add_bom
 
 
 def index(request):
@@ -45,14 +46,7 @@ def style_colourway(request, style_code, colourway_id):
     if request.method == "POST":
         form = BOMForm(request.POST)
         if form.is_valid():
-            bom_add = form.save(commit=False)
-            bom_add.seasonal_colourway = seasonal_colourway_id
-            bom_add.save()
-            answers = form.cleaned_data['material']
-            for i in answers:
-                bom_add.material.add(i)
-            bom_add.save()
-            print(answers)
+            add_bom(form, seasonal_colourway_id)
             return redirect('style_colourway', style_code=style_code, colourway_id=colourway_id)
     else:
         form = BOMForm()
