@@ -32,9 +32,10 @@ def get_style_code_dict(style_code):
     return style_dict
 
 
-def add_bom(form, style_colourway_id):
+def update_bom(form, style_colourway_obj, bom_id):
     bom_add = form.save(commit=False)
-    bom_add.style_colourway = style_colourway_id
+    bom_add.style_colourway = style_colourway_obj
+    bom_add.id = bom_id
     bom_add.save()
     answers = form.cleaned_data['material']
     for i in answers:

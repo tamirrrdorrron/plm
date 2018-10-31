@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Designer, BOM, Material, Colourway
-from .forms import ProductForm, StyleColourwayForm
+from .forms import ProductForm, StyleColourwayForm, BOMForm
 from .helper import *
 
 
@@ -26,7 +26,15 @@ def style_bom(request, style_code, bom_id):
     style_dict = get_style_code_dict(style_code)
     bom = BOM.objects.filter(id=bom_id).first()
     materials = bom.material.all()
-    return render(request, 'plm/style_bom.html', {'materials': materials, 'style_dict': style_dict})
+    if request.method == "POST":
+        form = BOMForm(request.POST)
+        style_colourway = BOM.objects.filter(id=bom_id).first().style_colourway
+        if form.is_valid():
+            update_bom(form, style_colourway, bom_id)
+            return redirect('style_bom', style_code=style_code, bom_id=bom_id)
+    else:
+        form = BOMForm()
+    return render(request, 'plm/style_bom.html', {'materials': materials, 'style_dict': style_dict, 'form': form})
 
 
 def materials(request):
@@ -61,7 +69,8 @@ def style_colourway_new(request, style_code):
             style_colourway.save()
             bom = BOM(style_colourway = style_colourway)
             bom.save()
-            return redirect('style', style_code=style_colourway.product.code)
+            bom_id = bom.id
+            return redirect('style_bom', style_code=style_code, bom_id=bom_id)
     else:
         form = StyleColourwayForm()
     return render(request, 'plm/style_colourway_new.html', {'form': form})
