@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Designer, BOM, Material, Colourway
-from .forms import ProductForm, SeasonalColourwayForm
+from .forms import ProductForm, StyleColourwayForm
 from .helper import *
 
 
@@ -17,9 +17,9 @@ def index(request):
 def style(request, style_code):
     style_dict = get_style_code_dict(style_code)
     image = get_product_image(style_code)
-    sc = get_seasonal_colourway_information(style_code)
+    sc = get_style_colourway_information(style_code)
     pi = get_product_information(style_code)
-    return render(request, 'plm/style.html', {'productInfo': pi, 'seasonalColourways': sc, 'style_dict': style_dict, 'image': image})
+    return render(request, 'plm/style.html', {'productInfo': pi, 'styleColourways': sc, 'style_dict': style_dict, 'image': image})
 
 
 def style_bom(request, style_code, bom_id):
@@ -51,18 +51,18 @@ def product_new(request):
     return render(request, 'plm/style_edit.html', {'form': form})
 
 
-def seasonal_colourway_new(request, style_code):
+def style_colourway_new(request, style_code):
     product_obj = Product.objects.filter(code=style_code)[0]
     if request.method == "POST":
-        form = SeasonalColourwayForm(request.POST)
+        form = StyleColourwayForm(request.POST)
         if form.is_valid():
-            seasonal_colourway = form.save(commit=False)
-            seasonal_colourway.product = product_obj
-            seasonal_colourway.save()
-            return redirect('style', style_code=seasonal_colourway.product.code)
+            style_colourway = form.save(commit=False)
+            style_colourway.product = product_obj
+            style_colourway.save()
+            return redirect('style', style_code=style_colourway.product.code)
     else:
-        form = SeasonalColourwayForm()
-    return render(request, 'plm/seasonal_colourway_new.html', {'form': form})
+        form = StyleColourwayForm()
+    return render(request, 'plm/style_colourway_new.html', {'form': form})
 
 
 

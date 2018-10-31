@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, SeasonalColourway, BOM
+from .models import Product, StyleColourway, BOM
 
 
 class ProductForm(forms.ModelForm):
@@ -15,10 +15,10 @@ class ProductForm(forms.ModelForm):
                   'photo',)
 
 
-class SeasonalColourwayForm(forms.ModelForm):
+class StyleColourwayForm(forms.ModelForm):
 
     class Meta:
-        model = SeasonalColourway
+        model = StyleColourway
         fields = ('season', 'colourway')
         widgets = {
             'product': forms.HiddenInput(),
@@ -31,5 +31,5 @@ class BOMForm(forms.ModelForm):
         model = BOM
         fields = ('material',)
         widgets = {
-            'seasonal_colourway': forms.HiddenInput(),
+            'style_colourway': forms.HiddenInput(),
         }

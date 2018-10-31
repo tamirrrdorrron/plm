@@ -1,8 +1,8 @@
-from plm.models import SeasonalColourway, Product
+from plm.models import StyleColourway, Product
 
 
-def get_seasonal_colourway_information(style_code):
-    sc = SeasonalColourway.objects.filter(product__code=style_code).values(
+def get_style_colourway_information(style_code):
+    sc = StyleColourway.objects.filter(product__code=style_code).values(
         'bom',
         'bom__name',
         'colourway__name',
@@ -32,9 +32,9 @@ def get_style_code_dict(style_code):
     return style_dict
 
 
-def add_bom(form, seasonal_colourway_id):
+def add_bom(form, style_colourway_id):
     bom_add = form.save(commit=False)
-    bom_add.seasonal_colourway = seasonal_colourway_id
+    bom_add.style_colourway = style_colourway_id
     bom_add.save()
     answers = form.cleaned_data['material']
     for i in answers:
