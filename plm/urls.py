@@ -11,7 +11,3 @@ urlpatterns = [
     path('style/<str:style_code>/bom/<str:bom_id>', style_bom, name='style_bom'),
     path('new/style', product_new, name='product_new'),
 ]
-
-
-# may be redundant shortly
-#    path('style/<str:style_code>/colourway/<str:colourway_id>', style_colourway, name='style_colourway'),
