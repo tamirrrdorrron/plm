@@ -59,26 +59,9 @@ def style_colourway_new(request, style_code):
             style_colourway = form.save(commit=False)
             style_colourway.product = product_obj
             style_colourway.save()
+            bom = BOM(style_colourway = style_colourway)
+            bom.save()
             return redirect('style', style_code=style_colourway.product.code)
     else:
         form = StyleColourwayForm()
     return render(request, 'plm/style_colourway_new.html', {'form': form})
-
-
-
-# may be redundant soon..
-# def style_colourway(request, style_code, colourway_id):
-#     colourway = SeasonalColourway.objects.filter(id=colourway_id).values('colourway__name', 'season__name')[0]
-#     styleDict = {'style_code': style_code}
-#     bom = BOM.objects.filter(seasonal_colourway__product__code=style_code,
-#                              seasonal_colourway__id = colourway_id
-#                              ).values('seasonal_colourway__season__name',
-#                                       'material__name',
-#                                       'material__code',
-#                                       'seasonal_colourway__product__code',
-#                                       'seasonal_colourway__colourway__name'
-#                                       )
-#     return render(request, 'plm/style_colourway.html', {'bom': bom,
-#                                                   'styleDict': styleDict,
-#                                                   'colourway': colourway,
-#                                                     'materials': materials})
