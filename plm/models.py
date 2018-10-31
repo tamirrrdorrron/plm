@@ -60,7 +60,7 @@ class Material(models.Model):
         return self.name
 
 
-class SeasonalColourway(models.Model):
+class StyleColourway(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     season = models.ForeignKey(Season, on_delete=models.PROTECT)
     colourway = models.ForeignKey(Colourway, on_delete=models.PROTECT)
@@ -75,11 +75,11 @@ class SeasonalColourway(models.Model):
 class BOM(models.Model):
     name = models.CharField(max_length=100, blank=True)
     material = models.ManyToManyField(Material, blank=True)
-    seasonal_colourway = models.ForeignKey(SeasonalColourway, on_delete=models.PROTECT)
+    style_colourway = models.ForeignKey(StyleColourway, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "%s %s %s %s" % (self.seasonal_colourway.product,
-                                self.seasonal_colourway.season,
-                                self.seasonal_colourway.colourway,
+        return "%s %s %s %s" % (self.style_colourway.product,
+                                self.style_colourway.season,
+                                self.style_colourway.colourway,
                                 self.name
                                 )
