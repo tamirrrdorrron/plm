@@ -43,7 +43,7 @@
     </div>
 <p>
 
-    <a class="btn btn-primary" href="{{ styleDict.style_code }}/seasonal_colourway_new" role="button">New Colourway</a>
+    <a class="btn btn-primary" href="{{ style_dict.style_code }}/style_colourway_new" role="button">New Colourway</a>
 
 <h3>Colourways</h3>
 
@@ -57,15 +57,24 @@
 
                 <th>Season</th>
 
+                <th>Factory</th>
+
             </thead>
 
-        {% for itr in seasonalColourways %}
+        {% for itr in styleColourways %}
 
             <tr>
 
-                <td><a href="/style/{{ itr.product__code }}/colourway/{{ itr.id }}" target="_blank">{{ itr.colourway__name }}</a></td>
+                <td><a href="/style/{{ itr.product__code }}/bom/{{ itr.bom }}" target="_blank">{{ itr.colourway__name }}</a></td>
 
                 <td>{{ itr.season__name }}</td>
+
+                <td>
+
+                    {{ itr.bom__name }}
+
+
+                </td>
 
         {% endfor %}
 

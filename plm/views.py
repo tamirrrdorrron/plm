@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Product, Designer, SeasonalColourway, BOM, Material, Colourway
-from .forms import ProductForm, SeasonalColourwayForm, BOMForm
+from .models import Designer, BOM, Material, Colourway
+from .forms import ProductForm, StyleColourwayForm, BOMForm
+from .helper import *
 
 
 def index(request):
@@ -14,52 +15,26 @@ def index(request):
 
 
 def style(request, style_code):
-    image = Product.objects.filter(code=style_code)[0]
-    sc = SeasonalColourway.objects.filter(product__code=style_code).values('id',
-                                                                           'colourway__name',
-                                                                           'season__name',
-                                                                           'product__code')
-    pi = Product.objects.filter(code=style_code).values(
-        'code',
-        'short_description',
-        'designer__name',
-        'production_coordinator__name',
-        'pattern_maker__name'
-    )
-    styleDict = {'style_code': style_code}
-    return render(request, 'plm/style.html', {'productInfo': pi, 'seasonalColourways': sc, 'styleDict': styleDict, 'image': image})
+    style_dict = get_style_code_dict(style_code)
+    image = get_product_image(style_code)
+    sc = get_style_colourway_information(style_code)
+    pi = get_product_information(style_code)
+    return render(request, 'plm/style.html', {'productInfo': pi, 'styleColourways': sc, 'style_dict': style_dict, 'image': image})
 
 
-def style_colourway(request, style_code, colourway_id):
-    colourway = SeasonalColourway.objects.filter(id=colourway_id).values('colourway__name', 'season__name')[0]
-    styleDict = {'style_code': style_code}
-    bom = BOM.objects.filter(seasonal_colourway__product__code=style_code,
-                             seasonal_colourway__id = colourway_id
-                             ).values('seasonal_colourway__season__name',
-                                      'material__name',
-                                      'material__code',
-                                      'seasonal_colourway__product__code',
-                                      'seasonal_colourway__colourway__name'
-                                      )
-    seasonal_colourway_id = SeasonalColourway.objects.filter(id=colourway_id)[0]
+def style_bom(request, style_code, bom_id):
+    style_dict = get_style_code_dict(style_code)
+    bom = BOM.objects.filter(id=bom_id).first()
+    materials = bom.material.all()
     if request.method == "POST":
         form = BOMForm(request.POST)
+        style_colourway = BOM.objects.filter(id=bom_id).first().style_colourway
         if form.is_valid():
-            bom_add = form.save(commit=False)
-            bom_add.seasonal_colourway = seasonal_colourway_id
-            bom_add.save()
-            answers = form.cleaned_data['material']
-            for i in answers:
-                bom_add.material.add(i)
-            bom_add.save()
-            print(answers)
-            return redirect('style_colourway', style_code=style_code, colourway_id=colourway_id)
+            update_bom(form, style_colourway, bom_id)
+            return redirect('style_bom', style_code=style_code, bom_id=bom_id)
     else:
         form = BOMForm()
-    return render(request, 'plm/style_colourway.html', {'form': form,'bom': bom,
-                                                  'styleDict': styleDict,
-                                                  'colourway': colourway,
-                                                    'materials': materials})
+    return render(request, 'plm/style_bom.html', {'materials': materials, 'style_dict': style_dict, 'form': form})
 
 
 def materials(request):
@@ -84,15 +59,18 @@ def product_new(request):
     return render(request, 'plm/style_edit.html', {'form': form})
 
 
-def seasonal_colourway_new(request, style_code):
+def style_colourway_new(request, style_code):
     product_obj = Product.objects.filter(code=style_code)[0]
     if request.method == "POST":
-        form = SeasonalColourwayForm(request.POST)
+        form = StyleColourwayForm(request.POST)
         if form.is_valid():
-            seasonal_colourway = form.save(commit=False)
-            seasonal_colourway.product = product_obj
-            seasonal_colourway.save()
-            return redirect('style', style_code=seasonal_colourway.product.code)
+            style_colourway = form.save(commit=False)
+            style_colourway.product = product_obj
+            style_colourway.save()
+            bom = BOM(style_colourway = style_colourway)
+            bom.save()
+            bom_id = bom.id
+            return redirect('style_bom', style_code=style_code, bom_id=bom_id)
     else:
-        form = SeasonalColourwayForm()
-    return render(request, 'plm/seasonal_colourway_new.html', {'form': form})
+        form = StyleColourwayForm()
+    return render(request, 'plm/style_colourway_new.html', {'form': form})

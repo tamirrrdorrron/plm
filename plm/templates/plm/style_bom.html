@@ -1,0 +1,70 @@
+{% extends 'plm/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<p>
+
+<h3>Style</h3>
+
+    <div class="container-fluid">
+
+        {{ style_dict.style_code }}<br><br>
+
+    <p>
+
+    <form method="POST" name="material_selection" class="form-group">{% csrf_token %}
+        <div>
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Add Material</button>
+    </form>
+
+    </p>
+
+    </div>
+
+<p>
+
+
+
+<h4>Bill of Materials</h4>
+
+<div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Code</th>
+
+        <th>Name</th>
+
+    </thead>
+
+        {% for material in materials %}
+
+    <tr>
+
+        <td>{{ material.code }}</td>
+
+        <td>{{ material.name }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+
+</p>
+
+</p>
+
+</div>
+
+{% endblock %}

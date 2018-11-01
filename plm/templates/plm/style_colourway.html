@@ -14,17 +14,6 @@
 
         {{ styleDict.style_code }}<br><br>
 
-    <p>
-
-    <form method="POST" name="material_selection" class="form-group">{% csrf_token %}
-        <div>
-            {{ form.as_p }}
-        </div>
-        <button type="submit" class="btn btn-primary">Add Material</button>
-    </form>
-
-    </p>
-
     </div>
 
 <p>
@@ -62,14 +51,6 @@
 </div>
 
 </p>
-
-
-
-<!--{% for material in bom %}-->
-
-    <!--{{ material.material__name }}<br>-->
-
-<!--{% endfor %}-->
 
 </p>
 
