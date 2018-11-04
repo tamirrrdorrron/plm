@@ -1,18 +1,19 @@
-from plm.models import StyleColourway, Product
+from plm.models import ProductColour, Product
 
 
-def get_style_colourway_information(style_code):
-    sc = StyleColourway.objects.filter(product__code=style_code).values(
+def get_product_colour_information(pk_product):
+    sc = ProductColour.objects.filter(product__pk=pk_product).values(
         'bom',
         'bom__name',
-        'colourway__name',
+        'colour__name',
         'season__name',
-        'product__code')
+        'product__code',
+        'product__pk')
     return sc
 
 
-def get_product_information(style_code):
-    pi = Product.objects.filter(code=style_code).values(
+def get_product_information(pk_product):
+    pi = Product.objects.filter(pk=pk_product).values(
         'code',
         'short_description',
         'designer__name',
@@ -22,20 +23,15 @@ def get_product_information(style_code):
     return pi
 
 
-def get_product_image(style_code):
-    image = Product.objects.filter(code=style_code)[0]
-    return image
+def get_product_dict(pk_product):
+    product_instance = Product.objects.filter(pk=pk_product).first()
+    return product_instance
 
 
-def get_style_code_dict(style_code):
-    style_dict = {'style_code': style_code}
-    return style_dict
-
-
-def update_bom(form, style_colourway_obj, bom_id):
+def update_bom(form, product_colour_obj, pk_bom):
     bom_add = form.save(commit=False)
-    bom_add.style_colourway = style_colourway_obj
-    bom_add.id = bom_id
+    bom_add.product_colour = product_colour_obj
+    bom_add.id = pk_bom
     bom_add.save()
     answers = form.cleaned_data['material']
     for i in answers:

@@ -14,7 +14,7 @@
 
 <div class="container-fluid">
 
-            <a class="btn btn-primary" href="{% url 'product_new' %}" role="button">New Style</a>
+            <a class="btn btn-primary" href="{% url 'product_new' %}" role="button">New Product</a>
 
 <p>
 
@@ -68,7 +68,7 @@
 
     <tr>
 
-        <td><a href="/style/{{ product.code }}" target="_blank">{{ product.code }}</a></td>
+        <td><a href="{% url 'product' pk_product=product.pk %}" target="_blank">{{ product.code }}</a></td>
 
         <td><img src="{{ product.photo.url}}" width="35"></td>
 
