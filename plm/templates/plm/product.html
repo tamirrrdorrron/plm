@@ -8,9 +8,8 @@
 
 <p>
 
-    <h3>Style Info</h3>
-
-    <div class="container-fluid">
+    <h3>Product Info</h3>
+  <div class="container-fluid">
   <div class="row">
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
@@ -19,7 +18,7 @@
     <div class="col-sm">
     </div>
     <div class="col-sm">
-    <img src="{{ image.photo.url }}" width="150">
+    <img src="{{ product.photo.url }}" width="150">
     </div>
   </div>
 </div>
@@ -31,9 +30,7 @@
     </div>
 <p>
 
-    <a class="btn btn-primary" href="{{ style_dict.style_code }}/style_colourway_new" role="button">New Colourway</a>
-
-<h3>Colourways</h3>
+<h3>Colours</h3>
 
     <div class="container-fluid">
 
@@ -41,7 +38,7 @@
 
             <thead>
 
-                <th>Colourway</th>
+                <th>Colour</th>
 
                 <th>Season</th>
 
@@ -49,11 +46,11 @@
 
             </thead>
 
-        {% for itr in styleColourways %}
+        {% for itr in product_colours %}
 
             <tr>
 
-                <td><a href="/style/{{ itr.product__code }}/bom/{{ itr.bom }}" target="_blank">{{ itr.colourway__name }}</a></td>
+                <td><a href="{% url 'product_bom' pk_product=itr.product__pk pk_bom=itr.bom%}" target="_blank">{{ itr.colour__name }}</a></td>
 
                 <td>{{ itr.season__name }}</td>
 
@@ -73,6 +70,9 @@
         </p>
 
     </div>
+
+    <a class="btn btn-primary" href="{% url 'product_colour_new' pk_product=product.pk %}" role="button">New Colour</a>
+
 
 </div>
 

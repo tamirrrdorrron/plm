@@ -1,10 +1,10 @@
-from plm.models import Colourway, Material, Season, Designer, PatternMaker, ProductionCoordinator
+from plm.models import Colour, Material, Season, Designer, PatternMaker, ProductionCoordinator
 
 Designer(name='Rosie G').save()
 PatternMaker(name='Janine Johnston').save()
 ProductionCoordinator(name='Vickie Che').save()
-Colourway(code='RED', name='Red').save()
-Colourway(code='BLK', name='Black').save()
+Colour(code='RED', name='Red').save()
+Colour(code='BLK', name='Black').save()
 Season(code='JAN19', name='January 2019').save()
 Season(code='FEB19', name='February 2019').save()
 Season(code='MAR19', name='March 2019').save()
