@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
-from .models import Designer, BOM, Material, Colourway
-from .forms import ProductForm, StyleColourwayForm, BOMForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Designer, BOM, Material, Colour
+from .forms import ProductForm, ProductColourForm, BOMForm
 from .helper import *
 
 
 def index(request):
-    products = Product.objects.all().order_by('id').reverse()
+    products = Product.objects.all().order_by('pk').reverse()
     designers = Designer.objects.all()
     if request.method == 'POST':
         selection = request.POST['list_designers']
@@ -14,37 +14,59 @@ def index(request):
     return render(request, 'plm/index.html', {'products': products, 'designers': designers})
 
 
-def style(request, style_code):
-    style_dict = get_style_code_dict(style_code)
-    image = get_product_image(style_code)
-    sc = get_style_colourway_information(style_code)
-    pi = get_product_information(style_code)
-    return render(request, 'plm/style.html', {'productInfo': pi, 'styleColourways': sc, 'style_dict': style_dict, 'image': image})
-
-
-def style_bom(request, style_code, bom_id):
-    style_dict = get_style_code_dict(style_code)
-    bom = BOM.objects.filter(id=bom_id).first()
-    materials = bom.material.all()
-    if request.method == "POST":
-        form = BOMForm(request.POST)
-        style_colourway = BOM.objects.filter(id=bom_id).first().style_colourway
-        if form.is_valid():
-            update_bom(form, style_colourway, bom_id)
-            return redirect('style_bom', style_code=style_code, bom_id=bom_id)
-    else:
-        form = BOMForm()
-    return render(request, 'plm/style_bom.html', {'materials': materials, 'style_dict': style_dict, 'form': form})
-
-
 def materials(request):
     materials = Material.objects.all()
     return render(request, 'plm/materials.html', {'materials': materials})
 
 
-def colourways(request):
-    colourways = Colourway.objects.all()
-    return render(request, 'plm/colourways.html', {'colourways': colourways})
+def colours(request):
+    colours = Colour.objects.all()
+    return render(request, 'plm/colours.html', {'colours': colours})
+
+
+def product(request, pk_product):
+    product = get_product_dict(pk_product)
+    product_colours = get_product_colour_information(pk_product)
+    product_instance = get_object_or_404(Product, pk=pk_product)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product_instance)
+        if form.is_valid():
+            form.save()
+    else:
+        form = ProductForm(instance=product_instance)
+    return render(request, 'plm/product.html', {'product': product, 'product_colours': product_colours, 'form': form})
+
+
+def product_colour_new(request, pk_product):
+    product_obj = Product.objects.filter(pk=pk_product)[0]
+    if request.method == "POST":
+        form = ProductColourForm(request.POST)
+        if form.is_valid():
+            product_colour = form.save(commit=False)
+            product_colour.product = product_obj
+            product_colour.save()
+            bom = BOM(product_colour=product_colour)
+            bom.save()
+            bom_pk = bom.pk
+            return redirect('product_bom', pk_product=pk_product, pk_bom=bom_pk)
+    else:
+        form = ProductColourForm()
+    return render(request, 'plm/product_colour_new.html', {'form': form})
+
+
+def product_bom(request, pk_product, pk_bom):
+    product = get_product_dict(pk_product)
+    bom = BOM.objects.filter(pk=pk_bom).first()
+    materials = bom.material.all()
+    if request.method == "POST":
+        form = BOMForm(request.POST)
+        product_colour = BOM.objects.filter(pk=pk_bom).first().product_colour
+        if form.is_valid():
+            update_bom(form, product_colour, pk_bom)
+            return redirect('product_bom', pk_product=pk_product, pk_bom=pk_bom)
+    else:
+        form = BOMForm()
+    return render(request, 'plm/product_bom.html', {'product': product, 'materials': materials, 'form': form})
 
 
 def product_new(request):
@@ -53,24 +75,8 @@ def product_new(request):
         if form.is_valid():
             product = form.save(commit=False)
             product.save()
-            return redirect('style', style_code=product.code)
+            return redirect('product', pk_product=product.pk)
     else:
         form = ProductForm()
-    return render(request, 'plm/style_edit.html', {'form': form})
+    return render(request, 'plm/product_edit.html', {'form': form})
 
-
-def style_colourway_new(request, style_code):
-    product_obj = Product.objects.filter(code=style_code)[0]
-    if request.method == "POST":
-        form = StyleColourwayForm(request.POST)
-        if form.is_valid():
-            style_colourway = form.save(commit=False)
-            style_colourway.product = product_obj
-            style_colourway.save()
-            bom = BOM(style_colourway = style_colourway)
-            bom.save()
-            bom_id = bom.id
-            return redirect('style_bom', style_code=style_code, bom_id=bom_id)
-    else:
-        form = StyleColourwayForm()
-    return render(request, 'plm/style_colourway_new.html', {'form': form})
