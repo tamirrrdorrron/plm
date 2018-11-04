@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Designer, BOM, Material, Colourway
 from .forms import ProductForm, StyleColourwayForm, BOMForm
 from .helper import *
@@ -18,8 +18,14 @@ def style(request, style_code):
     style_dict = get_style_code_dict(style_code)
     image = get_product_image(style_code)
     sc = get_style_colourway_information(style_code)
-    pi = get_product_information(style_code)
-    return render(request, 'plm/style.html', {'productInfo': pi, 'styleColourways': sc, 'style_dict': style_dict, 'image': image})
+    style_instance = get_object_or_404(Product, code=style_code)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=style_instance)
+        if form.is_valid():
+            form.save()
+    else:
+        form = ProductForm(instance=style_instance)
+    return render(request, 'plm/style.html', {'style_dict': style_dict, 'styleColourways': sc, 'image': image, 'form': form})
 
 
 def style_bom(request, style_code, bom_id):
