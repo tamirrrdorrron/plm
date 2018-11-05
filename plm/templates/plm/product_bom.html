@@ -43,6 +43,8 @@
 
         <th>Name</th>
 
+        <th>Remove</th>
+
     </thead>
 
         {% for material in materials %}
@@ -52,6 +54,17 @@
         <td>{{ material.code }}</td>
 
         <td>{{ material.name }}</td>
+
+        <td>
+
+            <form method="post">{% csrf_token %}
+                <input type="hidden" id="pk_bom" name="pk_bom" value="{{ bom.pk }}">
+                <input type="hidden" id="pk_product" name="pk_product" value="{{ product.pk }}">
+                <input type="hidden" id="pk_material" name="pk_material" value="{{ material.pk }}">
+                <input type="submit" value="Remove" class="btn-link">
+            </form>
+
+        </td>
 
         {% endfor %}
 

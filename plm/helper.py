@@ -1,4 +1,4 @@
-from plm.models import ProductColour, Product
+from plm.models import ProductColour, Product, BOM, Material
 
 
 def get_product_colour_information(pk_product):
@@ -37,3 +37,10 @@ def update_bom(form, product_colour_obj, pk_bom):
     for i in answers:
         bom_add.material.add(i)
     bom_add.save()
+
+
+def remove_material_from_bom(pk_bom, pk_material):
+    material_to_remove = Material.objects.filter(pk=pk_material).first()
+    bom_to_remove_from = BOM.objects.filter(pk=pk_bom).first()
+    bom_to_remove_from.material.remove(material_to_remove)
+    return

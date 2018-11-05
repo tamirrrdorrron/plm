@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Designer, BOM, Material, Colour
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from .models import Designer, Colour
 from .forms import ProductForm, ProductColourForm, BOMForm
 from .helper import *
 
@@ -59,14 +59,19 @@ def product_bom(request, pk_product, pk_bom):
     bom = BOM.objects.filter(pk=pk_bom).first()
     materials = bom.material.all()
     if request.method == "POST":
-        form = BOMForm(request.POST)
-        product_colour = BOM.objects.filter(pk=pk_bom).first().product_colour
-        if form.is_valid():
-            update_bom(form, product_colour, pk_bom)
+        if not 'pk_material' in request.POST.keys():
+            form = BOMForm(request.POST)
+            product_colour = BOM.objects.filter(pk=pk_bom).first().product_colour
+            if form.is_valid():
+                update_bom(form, product_colour, pk_bom)
+                return redirect('product_bom', pk_product=pk_product, pk_bom=pk_bom)
+        elif 'pk_material' in request.POST.keys():
+            pk_material = request.POST['pk_material']
+            remove_material_from_bom(pk_bom=pk_bom, pk_material=pk_material)
             return redirect('product_bom', pk_product=pk_product, pk_bom=pk_bom)
     else:
         form = BOMForm()
-    return render(request, 'plm/product_bom.html', {'product': product, 'materials': materials, 'form': form})
+    return render(request, 'plm/product_bom.html', {'product': product, 'materials': materials, 'form': form, 'bom': bom})
 
 
 def product_new(request):
