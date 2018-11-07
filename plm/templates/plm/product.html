@@ -1,4 +1,4 @@
-{% extends 'plm/base.html' %}
+{% extends 'plm/base_product.html' %}
 
 {% load static %}
 
@@ -8,7 +8,6 @@
 
 <p>
 
-    <h3>Product Info</h3>
   <div class="container-fluid">
   <div class="row">
     <form method="POST" class="post-form">{% csrf_token %}
@@ -50,7 +49,7 @@
 
             <tr>
 
-                <td><a href="{% url 'product_bom' pk_product=itr.product__pk pk_bom=itr.bom%}" target="_blank">{{ itr.colour__name }}</a></td>
+                <td><a href="{% url 'product_bom' pk_product=itr.product__pk pk_bom=itr.bom%}">{{ itr.colour__name }}</a></td>
 
                 <td>{{ itr.season__name }}</td>
 

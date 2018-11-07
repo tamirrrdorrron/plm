@@ -38,12 +38,12 @@ def product(request, pk_product):
 
 
 def product_colour_new(request, pk_product):
-    product_obj = Product.objects.filter(pk=pk_product)[0]
+    product = get_product_dict(pk_product)
     if request.method == "POST":
         form = ProductColourForm(request.POST)
         if form.is_valid():
             product_colour = form.save(commit=False)
-            product_colour.product = product_obj
+            product_colour.product = product
             product_colour.save()
             bom = BOM(product_colour=product_colour)
             bom.save()
@@ -51,7 +51,7 @@ def product_colour_new(request, pk_product):
             return redirect('product_bom', pk_product=pk_product, pk_bom=bom_pk)
     else:
         form = ProductColourForm()
-    return render(request, 'plm/product_colour_new.html', {'form': form})
+    return render(request, 'plm/product_colour_new.html', {'form': form, 'product': product})
 
 
 def product_bom(request, pk_product, pk_bom):
