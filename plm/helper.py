@@ -1,4 +1,4 @@
-from plm.models import ProductColour, Product, BOM, Material
+from plm.models import ProductColour, Product, BOM, Material, BOMMaterialComments
 
 
 def get_product_colour_information(pk_product):
@@ -44,3 +44,11 @@ def remove_material_from_bom(pk_bom, pk_material):
     bom_to_remove_from = BOM.objects.filter(pk=pk_bom).first()
     bom_to_remove_from.material.remove(material_to_remove)
     return
+
+
+def add_material_comments(pk_bom, pk_material, comment):
+    material = Material.objects.filter(pk=pk_material).first()
+    bom = BOM.objects.filter(pk=pk_bom).first()
+    bom_comments = BOMMaterialComments.objects.create(bom=bom, material=material, comment=comment)
+    bom_comments.save()
+
