@@ -1,16 +1,6 @@
 from django import forms
-from .models import ProductColour, BOM, BOMMaterialComments
+from .models import BOM, BOMMaterialComments
 
-
-class ProductColourForm(forms.ModelForm):
-
-    class Meta:
-        model = ProductColour
-        fields = ('season', 'colour')
-        widgets = {
-            'product': forms.HiddenInput(),
-        }
-#
 
 class BOMForm(forms.ModelForm):
 

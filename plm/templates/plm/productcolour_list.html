@@ -1,4 +1,4 @@
-{% extends 'plm/base_product.html' %}
+{% extends base_template %}
 
 {% load static %}
 
@@ -6,6 +6,12 @@
 
 <p>
     <div class="container-fluid">
+
+<p>
+
+    <a class="btn btn-primary" href="{% url 'ProductColourCreateView' pk=product.pk %}" role="button">Add Colour</a>
+
+</p>
 
         <table class="table" border="1">
 
@@ -43,9 +49,6 @@
         </p>
 
     </div>
-
-{#    <a class="btn btn-primary" href="{% url 'product_colour_new' pk_product=product.pk %}" role="button">New Colour</a>#}
-
 
 </div>
 

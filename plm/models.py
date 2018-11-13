@@ -75,6 +75,9 @@ class ProductColour(models.Model):
     def __str__(self):
         return "%s %s %s" % (self.product, self.season, self.colour)
 
+    def get_absolute_url(self):
+        return reverse('ProductColourListView', kwargs={'pk': self.product.pk})
+
 
 class BOM(models.Model):
     name = models.CharField(max_length=100, blank=True)
