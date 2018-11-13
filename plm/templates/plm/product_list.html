@@ -6,43 +6,11 @@
 
 <p>
 
-    <div>
-
-
-
-    </div>
-
 <div class="container-fluid">
-
-            <a class="btn btn-primary" href="{% url 'product_new' %}" role="button">New Product</a>
 
 <p>
 
-<form action="/" method="POST">
-
-    {% csrf_token %}
-
-        <label for="list_designers">Select Designer</label>
-
-    <p>
-
-        <select class="custom-select" name="list_designers">
-
-            <option value="0">Show all</option>
-
-            {% for designer in designers %}
-
-            <option value= {{ designer.id }} > {{ designer.name }} </option>
-
-            {% endfor %}
-
-        </select>
-
-    </p>
-
-        <input class="btn btn-primary" type="submit" value="Submit">
-
-    </form>
+    <a class="btn btn-primary" href="{% url 'ProductCreateView' %}" role="button">New Product</a>
 
 </p>
 
@@ -68,7 +36,7 @@
 
     <tr>
 
-        <td><a href="{% url 'product' pk_product=product.pk %}" target="_blank">{{ product.code }}</a></td>
+        <td><a href="{% url 'ProductUpdateView' pk=product.pk %}" target="_blank">{{ product.code }}</a></td>
 
         <td><img src="{{ product.photo.url}}" width="35"></td>
 

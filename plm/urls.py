@@ -1,13 +1,24 @@
 from django.urls import path
-from .views import index, product, materials, colours, product_new, product_colour_new, product_bom
+from .views import product_colour_new, product_bom
+from . import views
 
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('materials', materials, name='materials'),
-    path('colours', colours, name='colours'),
-    path('product/<int:pk_product>', product, name='product'),
+
+    path('', views.ProductListView.as_view(), name='ProductListView'),
+
+    path('materials', views.MaterialListView.as_view(), name='MaterialListView'),
+
+    path('colours', views.ColourListView.as_view(), name='ColourListView'),
+
+    path('product/<int:pk>', views.ProductUpdateView.as_view(), name='ProductUpdateView'),
+
+    path('product/<int:pk>/colours', views.ProductColourListView.as_view(), name='ProductColourListView'),
+
     path('product/<int:pk_product>/colour/new', product_colour_new, name='product_colour_new'),
+
     path('product/<str:pk_product>/bom/<str:pk_bom>', product_bom, name='product_bom'),
-    path('product/new', product_new, name='product_new'),
+
+    path('product/new', views.ProductCreateView.as_view(), name='ProductCreateView'),
+
 ]

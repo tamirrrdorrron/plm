@@ -1,18 +1,5 @@
 from django import forms
-from .models import Product, ProductColour, BOM
-
-
-class ProductForm(forms.ModelForm):
-
-    class Meta:
-        model = Product
-        fields = ('code',
-                  'short_description',
-                  'long_description',
-                  'designer',
-                  'production_coordinator',
-                  'pattern_maker',
-                  'photo',)
+from .models import ProductColour, BOM, BOMMaterialComments
 
 
 class ProductColourForm(forms.ModelForm):
@@ -23,7 +10,7 @@ class ProductColourForm(forms.ModelForm):
         widgets = {
             'product': forms.HiddenInput(),
         }
-
+#
 
 class BOMForm(forms.ModelForm):
 
@@ -32,4 +19,14 @@ class BOMForm(forms.ModelForm):
         fields = ('material',)
         widgets = {
             'product_colour': forms.HiddenInput(),
+        }
+
+
+class BOMMaterialCommentsForm(forms.ModelForm):
+
+    class Meta:
+        model = BOMMaterialComments
+        fields = ('material', 'comment')
+        widgets = {
+            'bom': forms.HiddenInput(),
         }

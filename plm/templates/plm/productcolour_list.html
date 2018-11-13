@@ -1,0 +1,55 @@
+{% extends 'plm/base_product.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<p>
+    <div class="container-fluid">
+
+        <table class="table" border="1">
+
+            <thead>
+
+                <th>Colour</th>
+
+                <th>Season</th>
+
+                <th>Factory</th>
+
+            </thead>
+
+        {% for colour in colours %}
+
+            <tr>
+
+                <td>{{ colour.colour.name }}</td>
+
+                <td>{{ colour.season.name }}</td>
+
+                <td>
+
+                    {{ colour.bom.name }}
+
+
+                </td>
+
+        {% endfor %}
+
+            </tr>
+
+        </table>
+
+        </p>
+
+    </div>
+
+{#    <a class="btn btn-primary" href="{% url 'product_colour_new' pk_product=product.pk %}" role="button">New Colour</a>#}
+
+
+</div>
+
+
+</p>
+
+{% endblock %}

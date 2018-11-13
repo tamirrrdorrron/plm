@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Designer(models.Model):
@@ -41,14 +42,17 @@ class Season(models.Model):
 class Product(models.Model):
     code = models.CharField(max_length=30, unique=True)
     short_description = models.CharField(max_length=255)
-    long_description = models.CharField(max_length=1000)
+    long_description = models.TextField(max_length=1000)
     designer = models.ForeignKey(Designer, on_delete=models.PROTECT)
     production_coordinator = models.ForeignKey(ProductionCoordinator, on_delete=models.PROTECT)
     pattern_maker = models.ForeignKey(PatternMaker, on_delete=models.PROTECT)
-    photo = models.ImageField(upload_to='styles')
+    photo = models.ImageField(upload_to='styles', default='styles/main.JPG')
 
     def __str__(self):
         return "%s %s" % (self.code, self.short_description)
+
+    def get_absolute_url(self):
+        return reverse('ProductUpdateView', kwargs={'pk': self.pk})
 
 
 class Material(models.Model):
@@ -74,7 +78,7 @@ class ProductColour(models.Model):
 
 class BOM(models.Model):
     name = models.CharField(max_length=100, blank=True)
-    material = models.ManyToManyField(Material, blank=True)
+    material = models.ManyToManyField(Material, blank=True, through='BOMMaterialComments')
     product_colour = models.ForeignKey(ProductColour, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -83,3 +87,13 @@ class BOM(models.Model):
                                 self.product_colour.colour,
                                 self.name
                                 )
+
+
+class BOMMaterialComments(models.Model):
+    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    bom = models.ForeignKey(BOM, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=1000)
+
+    def __str__(self):
+        return self.comment
+
