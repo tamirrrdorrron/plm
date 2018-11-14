@@ -123,6 +123,11 @@ class ProductBomListView(ListView):
         context['product'] = Product.objects.filter(pk=self.kwargs['pk']).first()
         return context
 
+    def get_queryset(self):
+        pc = ProductColour.objects.filter(product=self.kwargs['pk']).values('pk')
+        data = self.model.objects.filter(product_colour__in=pc).all()
+        return data
+
 
 class ProductBomMaterialListView(ListView):
     context_object_name = 'bommaterials'
