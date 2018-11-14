@@ -86,9 +86,8 @@ class BOM(models.Model):
 
     def __str__(self):
         return "%s %s %s" % (self.product_colour.colour,
-                                self.product_colour.season,
-                                self.name
-                                )
+                             self.product_colour.season,
+                             self.name)
 
 
 class BOMMaterialComments(models.Model):
