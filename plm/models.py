@@ -85,9 +85,8 @@ class BOM(models.Model):
     product_colour = models.ForeignKey(ProductColour, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "%s %s %s %s" % (self.product_colour.product,
+        return "%s %s %s" % (self.product_colour.colour,
                                 self.product_colour.season,
-                                self.product_colour.colour,
                                 self.name
                                 )
 

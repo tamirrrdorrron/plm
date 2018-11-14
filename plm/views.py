@@ -110,3 +110,31 @@ class ProductCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'plm/base.html'
         return context
+
+
+class ProductBomListView(ListView):
+    context_object_name = 'boms'
+    template_name = 'plm/productbom_list.html'
+    model = models.BOM
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
+        context['product'] = Product.objects.filter(pk=self.kwargs['pk']).first()
+        return context
+
+
+class ProductBomMaterialListView(ListView):
+    context_object_name = 'bommaterials'
+    template_name = 'plm/productbommaterials_list.html'
+    model = models.BOMMaterialComments
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
+        context['product'] = Product.objects.filter(pk=self.kwargs['pk']).first()
+        return context
+
+    def get_queryset(self):
+        data = self.model.objects.filter(bom=self.kwargs['bom_pk']).all()
+        return data

@@ -11,6 +11,9 @@ urlpatterns = [
     path('product/<int:pk>', views.ProductUpdateView.as_view(), name='ProductUpdateView'),
     path('product/<int:pk>/colours', views.ProductColourListView.as_view(), name='ProductColourListView'),
     path('product/<int:pk>/colour/new', views.ProductColourCreateView.as_view(), name='ProductColourCreateView'),
+    path('product/<int:pk>/boms', views.ProductBomListView.as_view(), name='ProductBomListView'),
+    path('product/<int:pk>/bom/<int:bom_pk>/materials', views.ProductBomMaterialListView.as_view(), name='ProductBomMaterialListView'),
+
     path('product/<str:pk_product>/bom/<str:pk_bom>', product_bom, name='product_bom'),
     path('product/new', views.ProductCreateView.as_view(), name='ProductCreateView'),
 
