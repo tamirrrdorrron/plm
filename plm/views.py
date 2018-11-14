@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from .models import Designer, Colour, BOMMaterialComments
 from . import models
-from .forms import ProductColourForm, BOMMaterialCommentsForm
+from .forms import BOMMaterialCommentsForm
 from .helper import *
 
 
@@ -46,6 +47,7 @@ class ProductColourListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
         context['product'] = Product.objects.filter(pk=self.kwargs['pk']).first()
         return context
 
@@ -54,21 +56,23 @@ class ProductColourListView(ListView):
         return data
 
 
-def product_colour_new(request, pk_product):
-    product = get_product_dict(pk_product)
-    if request.method == "POST":
-        form = ProductColourForm(request.POST)
-        if form.is_valid():
-            product_colour = form.save(commit=False)
-            product_colour.product = product
-            product_colour.save()
-            bom = BOM(product_colour=product_colour)
-            bom.save()
-            bom_pk = bom.pk
-            return redirect('product_bom', pk_product=pk_product, pk_bom=bom_pk)
-    else:
-        form = ProductColourForm()
-    return render(request, 'plm/product_colour_new.html', {'form': form, 'product': product})
+class ProductColourCreateView(CreateView):
+    fields = ('colour', 'season')
+    model = models.ProductColour
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
+        context['product'] = Product.objects.filter(pk=self.kwargs['pk']).first()
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        object_product = Product.objects.filter(pk=self.kwargs['pk']).first()
+        self.object.product = object_product
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 def product_bom(request, pk_product, pk_bom):
@@ -108,15 +112,29 @@ class ProductCreateView(CreateView):
         return context
 
 
+class ProductBomListView(ListView):
+    context_object_name = 'boms'
+    template_name = 'plm/productbom_list.html'
+    model = models.BOM
 
-# def product(request, pk_product):
-#     product = get_product_dict(pk_product)
-#     product_colours = get_product_colour_information(pk_product)
-#     product_instance = get_object_or_404(Product, pk=pk_product)
-#     if request.method == 'POST':
-#         form = ProductForm(request.POST, instance=product_instance)
-#         if form.is_valid():
-#             form.save()
-#     else:
-#         form = ProductForm(instance=product_instance)
-#     return render(request, 'plm/product.html', {'product': product, 'product_colours': product_colours, 'form': form})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
+        context['product'] = Product.objects.filter(pk=self.kwargs['pk']).first()
+        return context
+
+
+class ProductBomMaterialListView(ListView):
+    context_object_name = 'bommaterials'
+    template_name = 'plm/productbommaterials_list.html'
+    model = models.BOMMaterialComments
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
+        context['product'] = Product.objects.filter(pk=self.kwargs['pk']).first()
+        return context
+
+    def get_queryset(self):
+        data = self.model.objects.filter(bom=self.kwargs['bom_pk']).all()
+        return data

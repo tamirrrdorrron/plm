@@ -1,0 +1,49 @@
+{% extends base_template %}
+
+{% load static %}
+
+{% block content %}
+
+<p>
+    <div class="container-fluid">
+
+<p>
+
+{#    <a class="btn btn-primary" href="{% url 'ProductColourCreateView' pk=product.pk %}" role="button">Add Colour</a>#}
+
+</p>
+
+        <table class="table" border="1">
+
+            <thead>
+
+                <th>Colour</th>
+
+                 <th>Name</th>
+
+            </thead>
+
+        {% for bom in boms %}
+
+            <tr>
+
+                <td><a href="{% url 'ProductBomMaterialListView' pk=product.pk bom_pk=bom.pk %}">{{ bom.product_colour.season }} {{ bom.product_colour.colour }}</a></td>
+
+                <td>{{ bom.name }}</td>
+
+        {% endfor %}
+
+            </tr>
+
+        </table>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+</p>
+
+{% endblock %}
