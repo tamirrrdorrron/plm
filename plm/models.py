@@ -89,6 +89,9 @@ class BOM(models.Model):
                              self.product_colour.season,
                              self.name)
 
+    def get_absolute_url(self):
+        return reverse('ProductBomListView', kwargs={'pk': self.product_colour.product.pk})
+
 
 class BOMMaterialComments(models.Model):
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
@@ -97,4 +100,7 @@ class BOMMaterialComments(models.Model):
 
     def __str__(self):
         return self.comment
+
+    def get_absolute_url(self):
+        return reverse('ProductBomMaterialListView', kwargs={'pk': self.bom.product_colour.product.pk, 'bom_pk': self.bom.pk})
 
