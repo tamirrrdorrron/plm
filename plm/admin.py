@@ -1,5 +1,6 @@
 from django.contrib import admin
-from plm.models import Product, Designer, ProductionCoordinator, PatternMaker, Colour, Season, ProductColour, Material, BOM, BOMMaterialComments
+
+from plm.models import *
 
 # Register your models here.
 

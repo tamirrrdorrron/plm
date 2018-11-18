@@ -1,4 +1,5 @@
-from plm.models import Colour, Material, Season, Designer, PatternMaker, ProductionCoordinator
+from plm.models import (Colour, Designer, Material, PatternMaker,
+                        ProductionCoordinator, Season)
 
 Designer(name='Rosie G').save()
 PatternMaker(name='Janine Johnston').save()
