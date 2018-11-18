@@ -10,13 +10,26 @@ from .helper import *
 class ProductListView(ListView):
     context_object_name = 'products'
     model = models.Product
-
     ordering = ['-id']
 
 
 class MaterialListView(ListView):
     context_object_name = 'materials'
     model = models.Material
+    ordering = ['-id']
+
+
+class MaterialCreateView(CreateView):
+    fields = ('code',
+              'name',
+              'photo'
+              )
+    model = models.Material
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base.html'
+        return context
 
 
 class ColourListView(ListView):

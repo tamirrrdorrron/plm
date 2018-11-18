@@ -58,10 +58,13 @@ class Product(models.Model):
 class Material(models.Model):
     code = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to='materials')
+    photo = models.ImageField(upload_to='materials', default='materials/main.JPG')
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('MaterialListView')
 
 
 class ProductColour(models.Model):
