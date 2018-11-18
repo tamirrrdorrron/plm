@@ -1,0 +1,49 @@
+{% extends base_template %}
+
+{% load static %}
+
+{% block content %}
+
+<p>
+    <div class="container-fluid">
+
+<p>
+
+    <a class="btn btn-primary" href="{% url 'ProductBomMaterialCreateView' pk=product.pk bom_pk=bom.pk %}" role="button">Add Material</a>
+
+</p>
+
+        <table class="table" border="1">
+
+            <thead>
+
+                <th>Material</th>
+
+                 <th>Comment</th>
+
+            </thead>
+
+        {% for material in bommaterials %}
+
+            <tr>
+
+                <td>{{ material.material.name }}</td>
+
+                <td>{{ material.comment }}</td>
+
+        {% endfor %}
+
+            </tr>
+
+        </table>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+</p>
+
+{% endblock %}
