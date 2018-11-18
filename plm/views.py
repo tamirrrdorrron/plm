@@ -35,6 +35,21 @@ class MaterialCreateView(CreateView):
 class ColourListView(ListView):
     context_object_name = 'colours'
     model = models.Colour
+    ordering = ['-id']
+
+
+class ColourCreateView(CreateView):
+    fields = ('code',
+              'name'
+              )
+    model = models.Colour
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base.html'
+        return context
+
+
 
 
 class ProductUpdateView(UpdateView):
