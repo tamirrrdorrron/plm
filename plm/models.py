@@ -30,6 +30,9 @@ class Colour(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('ColourListView')
+
 
 class Season(models.Model):
     code = models.CharField(max_length=50, unique=True)
@@ -99,7 +102,7 @@ class BOM(models.Model):
 class BOMMaterialComments(models.Model):
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
     bom = models.ForeignKey(BOM, on_delete=models.CASCADE)
-    comment = models.TextField(max_length=1000)
+    comment = models.TextField(max_length=1000, blank=True)
 
     def __str__(self):
         return self.comment

@@ -1,0 +1,24 @@
+{% extends base_template %}
+
+{% block content %}
+
+    <div class="container-fluid">
+<p>
+     <div class="container-fluid">
+  <div class="row">
+    <form enctype="multipart/form-data" method="POST" class="form-group">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit" class="save btn btn-default">Save</button>
+    </form>
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+{#    <img src="{{ product.photo.url }}" width="150">#}
+    </div>
+  </div>
+</div>
+</p>
+   </div>
+    </div>
+{% endblock %}
