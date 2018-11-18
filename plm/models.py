@@ -109,4 +109,3 @@ class BOMMaterialComments(models.Model):
 
     def get_absolute_url(self):
         return reverse('ProductBomMaterialListView', kwargs={'pk': self.bom.product_colour.product.pk, 'bom_pk': self.bom.pk})
-

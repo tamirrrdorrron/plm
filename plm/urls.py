@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import product_bom
-from . import views
 
+from . import views
 
 urlpatterns = [
 
@@ -17,8 +16,6 @@ urlpatterns = [
     path('product/<int:pk>/bom/new', views.ProductBomCreateView.as_view(), name='ProductBomCreateView'),
     path('product/<int:pk>/bom/<int:bom_pk>/materials', views.ProductBomMaterialListView.as_view(), name='ProductBomMaterialListView'),
     path('product/<int:pk>/bom/<int:bom_pk>/materials/add', views.ProductBomMaterialCreateView.as_view(), name='ProductBomMaterialCreateView'),
-
-    path('product/<str:pk_product>/bom/<str:pk_bom>', product_bom, name='product_bom'),
     path('product/new', views.ProductCreateView.as_view(), name='ProductCreateView'),
 
 ]
