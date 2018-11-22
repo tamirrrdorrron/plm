@@ -45,7 +45,6 @@ class Season(models.Model):
 class Product(models.Model):
     code = models.CharField(max_length=30, unique=True)
     short_description = models.CharField(max_length=255)
-    long_description = models.TextField(max_length=1000)
     designer = models.ForeignKey(Designer, on_delete=models.PROTECT)
     production_coordinator = models.ForeignKey(ProductionCoordinator, on_delete=models.PROTECT)
     pattern_maker = models.ForeignKey(PatternMaker, on_delete=models.PROTECT)
@@ -70,33 +69,19 @@ class Material(models.Model):
         return reverse('MaterialListView')
 
 
-class ProductColour(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    season = models.ForeignKey(Season, on_delete=models.PROTECT)
-    colour = models.ForeignKey(Colour, on_delete=models.PROTECT)
-
-    class Meta:
-        unique_together = ("product", "season", "colour")
-
-    def __str__(self):
-        return "%s %s %s" % (self.product, self.season, self.colour)
-
-    def get_absolute_url(self):
-        return reverse('ProductColourListView', kwargs={'pk': self.product.pk})
-
-
 class BOM(models.Model):
     name = models.CharField(max_length=100, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    season = models.ForeignKey(Season, on_delete=models.PROTECT, blank=True, null=True)
+    colour = models.ManyToManyField(Colour, blank=True)
     material = models.ManyToManyField(Material, blank=True, through='BOMMaterialComments')
-    product_colour = models.ForeignKey(ProductColour, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "%s %s %s" % (self.product_colour.colour,
-                             self.product_colour.season,
-                             self.name)
+        return "%s %s" % (self.product.code,
+                          self.colour.name)
 
     def get_absolute_url(self):
-        return reverse('ProductBomListView', kwargs={'pk': self.product_colour.product.pk})
+        return reverse('ProductBomView', kwargs={'pk': self.product.pk})
 
 
 class BOMMaterialComments(models.Model):
@@ -108,4 +93,4 @@ class BOMMaterialComments(models.Model):
         return self.comment
 
     def get_absolute_url(self):
-        return reverse('ProductBomMaterialListView', kwargs={'pk': self.bom.product_colour.product.pk, 'bom_pk': self.bom.pk})
+        return reverse('ProductBomView', kwargs={'pk': self.bom.product.pk})

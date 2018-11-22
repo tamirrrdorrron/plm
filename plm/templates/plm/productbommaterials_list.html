@@ -9,7 +9,7 @@
 
 <p>
 
-    <a class="btn btn-primary" href="{% url 'ProductBomMaterialCreateView' pk=product.pk bom_pk=bom.pk %}" role="button">Add Material</a>
+    <a class="btn btn-primary" href="{% url 'ProductBomCreateView' pk=product.pk %}" role="button">Add Material</a>
 
 </p>
 
@@ -23,7 +23,7 @@
 
             </thead>
 
-        {% for material in bommaterials %}
+        {% for material in materials %}
 
             <tr>
 
