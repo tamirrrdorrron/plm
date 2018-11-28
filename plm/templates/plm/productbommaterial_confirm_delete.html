@@ -1,0 +1,21 @@
+{% extends 'plm/base_product.html' %}
+
+{% load static %}
+
+{% block content %}
+
+   <div class="container-fluid">
+   <p>
+    <h4>Are you sure you want to remove the material from the BOM?</h4>
+<div class="container-fluid">
+<p>
+    <form method="POST" class="form-group">{% csrf_token %}
+        <a class="btn btn-success" href="{% url 'ProductBomView' pk=product.pk %}">Cancel</a>
+        <button class="btn btn-danger" type="submit">Remove</button>
+    </form>
+</p>
+</div>
+</p>
+   </div>
+
+{% endblock %}

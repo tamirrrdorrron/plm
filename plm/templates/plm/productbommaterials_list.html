@@ -21,6 +21,8 @@
 
                  <th>Comment</th>
 
+                <th>Actions</th>
+
             </thead>
 
         {% for material in materials %}
@@ -30,6 +32,14 @@
                 <td>{{ material.material.name }}</td>
 
                 <td>{{ material.comment }}</td>
+
+                <td>
+
+                    <a class="btn btn-primary" href="{% url 'ProductBomUpdateView' pk=product.pk bom_material_id_pk=material.pk%}" role="button">Modify</a>
+
+                    <a class="btn btn-danger" href="{% url 'ProductBomDeleteView' pk=product.pk bom_material_id_pk=material.pk%}" role="button">Remove</a>
+
+                </td>
 
         {% endfor %}
 

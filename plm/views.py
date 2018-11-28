@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.urls import reverse
 
 from . import models
 
@@ -132,3 +133,37 @@ class ProductBomCreateView(CreateView):
         self.object.bom = bom
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
+
+
+class ProductBomUpdateView(UpdateView):
+    fields = ('material',
+              'comment'
+              )
+    template_name = 'plm/productbommaterial_form.html'
+    model = models.BOMMaterialComments
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        context['base_template'] = 'plm/base_product.html'
+        return context
+
+    def get_object(self):
+        return models.BOMMaterialComments.objects.filter(pk=self.kwargs['bom_material_id_pk']).first()
+
+
+class ProductBomDeleteView(DeleteView):
+    model = models.BOMMaterialComments
+    template_name = 'plm/productbommaterial_confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        context['base_template'] = 'plm/base_product.html'
+        return context
+
+    def get_object(self):
+        return models.BOMMaterialComments.objects.filter(pk=self.kwargs['bom_material_id_pk']).first()
+
+    def get_success_url(self):
+        return reverse('ProductBomView', kwargs={'pk': self.kwargs['pk']})
