@@ -26,6 +26,7 @@ class ProductionCoordinator(models.Model):
 class Colour(models.Model):
     code = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=255)
+    notes = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.name
@@ -60,6 +61,10 @@ class Product(models.Model):
 class Material(models.Model):
     code = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=255)
+    content = models.CharField(max_length=255, blank=True)
+    weight = models.CharField(max_length=255, blank=True)
+    vendor_mill = models.CharField(max_length=255, blank=True)
+    vendor_ref = models.CharField(max_length=255, blank=True)
     photo = models.ImageField(upload_to='materials', default='materials/main.JPG')
 
     def __str__(self):

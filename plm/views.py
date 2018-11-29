@@ -20,6 +20,10 @@ class MaterialListView(ListView):
 class MaterialCreateView(CreateView):
     fields = ('code',
               'name',
+              'content',
+              'weight',
+              'vendor_mill',
+              'vendor_ref',
               'photo'
               )
     model = models.Material
@@ -38,7 +42,8 @@ class ColourListView(ListView):
 
 class ColourCreateView(CreateView):
     fields = ('code',
-              'name'
+              'name',
+              'notes'
               )
     model = models.Colour
 

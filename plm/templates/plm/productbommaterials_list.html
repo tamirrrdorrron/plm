@@ -17,9 +17,21 @@
 
             <thead>
 
-                <th>Material</th>
+                <th>Photo</th>
 
-                 <th>Comment</th>
+                <th>Code</th>
+
+                <th>Name</th>
+
+                <th>Content</th>
+
+                <th>Weight</th>
+
+                <th>Vendor / Mill</th>
+
+                <th>Vendor Ref</th>
+
+                <th>Comment</th>
 
                 <th>Actions</th>
 
@@ -29,7 +41,19 @@
 
             <tr>
 
+                <td><img src="{{ material.material.photo.url }}" width="60"></td>
+
+                <td>{{ material.material.code }}</td>
+
                 <td>{{ material.material.name }}</td>
+
+                <td>{{ material.material.content }}</td>
+
+                <td>{{ material.material.weight }}</td>
+
+                <td>{{ material.material.vendor_mill }}</td>
+
+                <td>{{ material.material.vendor_ref }}</td>
 
                 <td>{{ material.comment }}</td>
 
