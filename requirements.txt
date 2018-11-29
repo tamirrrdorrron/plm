@@ -1,4 +1,6 @@
 Django==2.1.1
 Pillow==5.3.0
+isort
+flake8
 
 #comment

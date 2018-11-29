@@ -9,7 +9,7 @@
 
 <p>
 
-    <a class="btn btn-primary" href="{% url 'ProductBomMaterialCreateView' pk=product.pk bom_pk=bom.pk %}" role="button">Add Material</a>
+    <a class="btn btn-primary" href="{% url 'ProductBomCreateView' pk=product.pk %}" role="button">Add Material</a>
 
 </p>
 
@@ -17,19 +17,53 @@
 
             <thead>
 
-                <th>Material</th>
+                <th>Photo</th>
 
-                 <th>Comment</th>
+                <th>Code</th>
+
+                <th>Name</th>
+
+                <th>Content</th>
+
+                <th>Weight</th>
+
+                <th>Vendor / Mill</th>
+
+                <th>Vendor Ref</th>
+
+                <th>Comment</th>
+
+                <th>Actions</th>
 
             </thead>
 
-        {% for material in bommaterials %}
+        {% for material in materials %}
 
             <tr>
 
+                <td><img src="{{ material.material.photo.url }}" width="60"></td>
+
+                <td>{{ material.material.code }}</td>
+
                 <td>{{ material.material.name }}</td>
 
+                <td>{{ material.material.content }}</td>
+
+                <td>{{ material.material.weight }}</td>
+
+                <td>{{ material.material.vendor_mill }}</td>
+
+                <td>{{ material.material.vendor_ref }}</td>
+
                 <td>{{ material.comment }}</td>
+
+                <td>
+
+                    <a class="btn btn-primary" href="{% url 'ProductBomUpdateView' pk=product.pk bom_material_id_pk=material.pk%}" role="button">Modify</a>
+
+                    <a class="btn btn-danger" href="{% url 'ProductBomDeleteView' pk=product.pk bom_material_id_pk=material.pk%}" role="button">Remove</a>
+
+                </td>
 
         {% endfor %}
 

@@ -18,15 +18,9 @@
         <a class="nav-link" href="{% url 'ProductUpdateView' pk=product.pk %}">Product Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'ProductColourListView' pk=product.pk %}">Colours</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'ProductBomListView' pk=product.pk %}">BOMs</a>
+        <a class="nav-link" href="{% url 'ProductBomView' pk=product.pk %}">BOM</a>
       </li>
         </li>
-      <li class="nav-item">
-        <a class="nav-link" href="">Measurements</a>
-      </li>
     </ul>
   </div>
 </nav>

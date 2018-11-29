@@ -22,6 +22,8 @@
 
         <th>Name</th>
 
+        <th>Notes</th>
+
     </thead>
 
         {% for colour in colours %}
@@ -31,6 +33,8 @@
         <td>{{ colour.code }}</td>
 
         <td>{{ colour.name }}</td>
+
+        <td>{{ colour.notes }}</td>
 
         {% endfor %}
 
