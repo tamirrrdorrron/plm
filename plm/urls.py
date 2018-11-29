@@ -10,6 +10,7 @@ urlpatterns = [
     path('colours', views.ColourListView.as_view(), name='ColourListView'),
     path('colours/new', views.ColourCreateView.as_view(), name='ColourCreateView'),
     path('product/<int:pk>', views.ProductUpdateView.as_view(), name='ProductUpdateView'),
+    path('product/<int:pk>/summary', views.ProductDetailView.as_view(), name='ProductDetailView'),
     path('product/<int:pk>/bom', views.ProductBomView.as_view(), name='ProductBomView'),
     path('product/<int:pk>/bom/new', views.ProductBomCreateView.as_view(), name='ProductBomCreateView'),
     path('product/<int:pk>/bom/<int:bom_material_id_pk>', views.ProductBomUpdateView.as_view(), name='ProductBomUpdateView'),
