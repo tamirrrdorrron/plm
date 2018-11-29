@@ -24,17 +24,34 @@
 
         <th>Name</th>
 
+        <th>Content</th>
+
+        <th>Weight</th>
+
+        <th>Vendor / Mill</th>
+
+        <th>Vendor Ref</th>
+
     </thead>
 
         {% for material in materials %}
 
     <tr>
 
-        <td><img src="{{ material.photo.url }}" width="120"></td>
+        <td><img src="{{ material.photo.url }}" width="60"></td>
 
         <td>{{ material.code }}</td>
 
         <td>{{ material.name }}</td>
+
+        <td>{{ material.content }}</td>
+
+        <td>{{ material.weight }}</td>
+
+        <td>{{ material.vendor_mill }}</td>
+
+        <td>{{ material.vendor_ref }}</td>
+
 
         {% endfor %}
 
