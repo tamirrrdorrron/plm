@@ -58,7 +58,9 @@ class ProductUpdateView(UpdateView):
               'short_description',
               'designer',
               'production_coordinator',
-              'pattern_maker'
+              'pattern_maker',
+              'colour',
+              'instructions'
               )
     model = models.Product
 
@@ -76,6 +78,8 @@ class ProductCreateView(CreateView):
               'designer',
               'production_coordinator',
               'pattern_maker',
+              'colour',
+              'instructions',
               'photo'
               )
     model = models.Product
@@ -184,4 +188,5 @@ class ProductDetailView(DetailView):
         context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
         bom = models.BOM.objects.filter(product=product).first()
         context['bom_materials'] = models.BOMMaterialComments.objects.filter(bom=bom)
+        context['colours'] = product.colour.all()
         return context
