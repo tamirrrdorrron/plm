@@ -20,11 +20,26 @@
         <p>Pattern Maker: {{ object.pattern_maker }}</p>
         </div>
     </div>
-    <div class="col-sm">
+    <div class="col-sm" align="right">
     <img src="{{ product.photo.url }}" width="150">
     </div>
   </div>
 </div>
+
+<div class="container-fluid">
+    <h5>Product Colours</h5>
+
+    <div class="container-fluid">
+
+        {% for colour in colours %}
+
+            <p>{{ colour.name }}</p>
+
+        {%  endfor %}
+
+    </div>
+</div>
+
 
     <div class="container-fluid">
 
@@ -85,4 +100,13 @@
 
     </div>
 <p>
+
+<div class="container-fluid">
+
+        <h5>Handover Instructions</h5>
+
+<div class="container-fluid">
+
+                <p>{{ object.instructions }}</p>
+
 {% endblock %}

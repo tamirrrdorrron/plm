@@ -50,6 +50,8 @@ class Product(models.Model):
     production_coordinator = models.ForeignKey(ProductionCoordinator, on_delete=models.PROTECT)
     pattern_maker = models.ForeignKey(PatternMaker, on_delete=models.PROTECT)
     photo = models.ImageField(upload_to='styles', default='styles/main.JPG')
+    colour = models.ManyToManyField(Colour, blank=True)
+    instructions = models.TextField(max_length=2000, blank=True)
 
     def __str__(self):
         return "%s %s" % (self.code, self.short_description)
