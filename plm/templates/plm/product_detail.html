@@ -31,11 +31,33 @@
 
     <div class="container-fluid">
 
+    <table class="table" border="1">
+
+    <thead>
+
+        <th>Colour</th>
+
+        <th>Season</th>
+
+        <th>Comment</th>
+
+    </thead>
+
         {% for colour in colours %}
 
-            <p>{{ colour.name }}</p>
+            <tr>
+
+            <td>{{ colour.colour.name }}</td>
+
+            <td>{{ colour.season.name }}</td>
+
+            <td>{{ colour.comment }}</td>
 
         {%  endfor %}
+
+        </tr>
+
+    </table>
 
     </div>
 </div>
