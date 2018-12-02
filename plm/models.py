@@ -50,7 +50,7 @@ class Product(models.Model):
     production_coordinator = models.ForeignKey(ProductionCoordinator, on_delete=models.PROTECT)
     pattern_maker = models.ForeignKey(PatternMaker, on_delete=models.PROTECT)
     photo = models.ImageField(upload_to='styles', default='styles/main.JPG')
-    colour = models.ManyToManyField(Colour, blank=True)
+    colour = models.ManyToManyField(Colour, blank=True, through='ColourSeason')
     instructions = models.TextField(max_length=2000, blank=True)
 
     def __str__(self):
@@ -58,6 +58,19 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('ProductUpdateView', kwargs={'pk': self.pk})
+
+
+class ColourSeason(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    colour = models.ForeignKey(Colour, on_delete=models.PROTECT)
+    season = models.ForeignKey(Season, on_delete=models.PROTECT, blank=True)
+    comment = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return "%s %s %s" % (self.product, self.colour, self.season)
+
+    def get_absolute_url(self):
+        return reverse('ProductColoursListView', kwargs={'pk': self.product.pk})
 
 
 class Material(models.Model):

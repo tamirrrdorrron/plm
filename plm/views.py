@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from django.urls import reverse
+from plm.forms import MyForm
 
 from . import models
 
@@ -54,14 +55,7 @@ class ColourCreateView(CreateView):
 
 
 class ProductUpdateView(UpdateView):
-    fields = ('code',
-              'short_description',
-              'designer',
-              'production_coordinator',
-              'pattern_maker',
-              'colour',
-              'instructions'
-              )
+    form_class = MyForm
     model = models.Product
 
     def get_context_data(self, **kwargs):
@@ -78,7 +72,6 @@ class ProductCreateView(CreateView):
               'designer',
               'production_coordinator',
               'pattern_maker',
-              'colour',
               'instructions',
               'photo'
               )
@@ -188,5 +181,42 @@ class ProductDetailView(DetailView):
         context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
         bom = models.BOM.objects.filter(product=product).first()
         context['bom_materials'] = models.BOMMaterialComments.objects.filter(bom=bom)
-        context['colours'] = product.colour.all()
+        context['colours'] = models.ColourSeason.objects.filter(product=product).all()
         return context
+
+
+class ProductColoursCreateView(CreateView):
+    fields = ('colour',
+              'season'
+              )
+    model = models.ColourSeason
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        context['base_template'] = 'plm/base_product.html'
+        return context
+
+    def form_valid(self, form):
+        product = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        self.object = form.save(commit=False)
+        self.object.product = product
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class ProductColoursListView(ListView):
+    context_object_name = 'productcolours'
+    model = models.ColourSeason
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        context['base_template'] = 'plm/base_product.html'
+        return context
+
+    def get_queryset(self):
+        product = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        data = models.ColourSeason.objects.filter(product=product).all()
+        return data
+
