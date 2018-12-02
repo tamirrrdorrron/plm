@@ -187,7 +187,8 @@ class ProductDetailView(DetailView):
 
 class ProductColoursCreateView(CreateView):
     fields = ('colour',
-              'season'
+              'season',
+              'comment'
               )
     model = models.ColourSeason
 
