@@ -21,6 +21,9 @@
         <a class="nav-link" href="{% url 'ProductUpdateView' pk=product.pk %}">Product Details</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'ProductColoursListView' pk=product.pk %}">Colours</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'ProductBomView' pk=product.pk %}">BOM</a>
       </li>
         </li>

@@ -6,6 +6,7 @@ from plm.models import *
 
 admin.site.register(Colour)
 admin.site.register(Product)
+admin.site.register(ColourSeason)
 admin.site.register(Designer)
 admin.site.register(ProductionCoordinator)
 admin.site.register(PatternMaker)
