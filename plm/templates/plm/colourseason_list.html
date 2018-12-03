@@ -36,10 +36,15 @@
 
         <td>{{ colour.season.name }}</td>
 
-        <td>{{ colour.comments }}</td>
+        <td>{{ colour.comment }}</td>
 
-        <td>Modify, Delete</td>
+        <td>
 
+            <a class="btn btn-primary" href="{% url 'ProductColoursUpdateView' pk=product.pk product_colour_pk=colour.pk%}" role="button">Modify</a>
+
+            <a class="btn btn-danger" href="{% url 'ProductColoursDeleteView' pk=product.pk product_colour_pk=colour.pk%}" role="button">Remove</a>
+
+        </td>
         {% endfor %}
 
     </tr>
