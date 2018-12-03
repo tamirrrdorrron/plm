@@ -221,3 +221,38 @@ class ProductColoursListView(ListView):
         data = models.ColourSeason.objects.filter(product=product).all()
         return data
 
+
+class ProductColoursUpdateView(UpdateView):
+    fields = ('colour',
+              'season',
+              'comment'
+              )
+    model = models.ColourSeason
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        context['base_template'] = 'plm/base_product.html'
+        return context
+
+    def get_object(self):
+        return models.ColourSeason.objects.filter(pk=self.kwargs['product_colour_pk']).first()
+
+    def get_success_url(self):
+        return reverse('ProductColoursListView', kwargs={'pk': self.kwargs['pk']})
+
+
+class ProductColoursDeleteView(DeleteView):
+    model = models.ColourSeason
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        context['base_template'] = 'plm/base_product.html'
+        return context
+
+    def get_object(self):
+        return models.ColourSeason.objects.filter(pk=self.kwargs['product_colour_pk']).first()
+
+    def get_success_url(self):
+        return reverse('ProductColoursListView', kwargs={'pk': self.kwargs['pk']})

@@ -66,6 +66,9 @@ class ColourSeason(models.Model):
     season = models.ForeignKey(Season, on_delete=models.PROTECT, blank=True)
     comment = models.CharField(max_length=100, blank=True)
 
+    class Meta:
+        unique_together = ('colour', 'season', 'product')
+
     def __str__(self):
         return "%s %s %s" % (self.product, self.colour, self.season)
 
