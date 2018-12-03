@@ -1,0 +1,49 @@
+{% extends 'plm/base_product.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<p>
+
+<div class="container-fluid">
+
+<p>
+
+    <a class="btn btn-primary" href="" role="button">Add Image</a>
+
+</p>
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Image</th>
+
+        <th>Type</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for image in images %}
+
+    <tr>
+
+        <td><img src="{{ image.image.url }}" width="120"></td>
+
+        <td>{{ image.type }}</td>
+
+        <td>{{ image.comment }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+
+</p>
+
+{% endblock %}

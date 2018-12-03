@@ -117,3 +117,20 @@ class BOMMaterialComments(models.Model):
 
     def get_absolute_url(self):
         return reverse('ProductBomView', kwargs={'pk': self.bom.product.pk})
+
+
+class ImageType(models.Model):
+    name = models.CharField(max_length=50, blank=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Image(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to='ref_images')
+    type = models.ForeignKey(ImageType, on_delete=models.PROTECT, blank=False)
+    comment = models.TextField(max_length=1000, blank=True)
+
+    def __str__(self):
+        return "%s %s" % (self.product, self.type)

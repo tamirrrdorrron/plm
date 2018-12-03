@@ -131,4 +131,106 @@
 
                 <p>{{ object.instructions }}</p>
 
+</div>
+</div>
+<div class="container-fluid">
+
+        <h5>Reference Images</h5>
+
+    <div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Image</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for image in ref_images %}
+
+    <tr>
+
+        <td><img src="{{ image.image.url }}" width="360"></td>
+
+        <td>{{ image.comment }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+</div>
+
+<div class="container-fluid">
+
+        <h5>Construction Images</h5>
+
+    <div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Image</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for image in construction_images %}
+
+    <tr>
+
+        <td><img src="{{ image.image.url }}" width="360"></td>
+
+        <td>{{ image.comment }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+</div>
+
+
+
+<div class="container-fluid">
+
+        <h5>Colourway Images</h5>
+
+    <div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Image</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for image in colourway_images %}
+
+    <tr>
+
+        <td><img src="{{ image.image.url }}" width="360"></td>
+
+        <td>{{ image.comment }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+</div>
 {% endblock %}

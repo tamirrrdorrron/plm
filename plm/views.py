@@ -182,6 +182,16 @@ class ProductDetailView(DetailView):
         bom = models.BOM.objects.filter(product=product).first()
         context['bom_materials'] = models.BOMMaterialComments.objects.filter(bom=bom)
         context['colours'] = models.ColourSeason.objects.filter(product=product).all()
+
+        type_ref_images = models.ImageType.objects.filter(name='Reference Images').first()
+        context['ref_images'] = models.Image.objects.filter(product=product, type=type_ref_images).all()
+
+        type_construction_images = models.ImageType.objects.filter(name='Construction Images').first()
+        context['construction_images'] = models.Image.objects.filter(product=product, type=type_construction_images).all()
+
+        type_colourway_images = models.ImageType.objects.filter(name='Colourway Images').first()
+        context['colourway_images'] = models.Image.objects.filter(product=product, type=type_colourway_images).all()
+
         return context
 
 
@@ -256,3 +266,19 @@ class ProductColoursDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('ProductColoursListView', kwargs={'pk': self.kwargs['pk']})
+
+
+class ImageListView(ListView):
+    model = models.Image
+    context_object_name = 'images'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        return context
+
+    def get_queryset(self):
+        product = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        data = models.Image.objects.filter(product=product).all()
+        return data
