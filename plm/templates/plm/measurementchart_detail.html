@@ -1,0 +1,236 @@
+{% extends 'plm/base_product.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm">
+        <h5>Product Information</h5>
+        <div class="container-fluid">
+        <p>Product Code: {{ object.code }}</p>
+        <p>Description: {{ object.short_description }}</p>
+        <p>Designer: {{ object.designer }}</p>
+        <p>Production Coordinator: {{ object.production_coordinator }}</p>
+        <p>Pattern Maker: {{ object.pattern_maker }}</p>
+        </div>
+    </div>
+    <div class="col-sm" align="right">
+    <img src="{{ product.photo.url }}" width="150">
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+    <h5>Product Colours</h5>
+
+    <div class="container-fluid">
+
+    <table class="table" border="1">
+
+    <thead>
+
+        <th>Colour</th>
+
+        <th>Season</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for colour in colours %}
+
+            <tr>
+
+            <td>{{ colour.colour.name }}</td>
+
+            <td>{{ colour.season.name }}</td>
+
+            <td>{{ colour.comment }}</td>
+
+        {%  endfor %}
+
+        </tr>
+
+    </table>
+
+    </div>
+</div>
+
+
+    <div class="container-fluid">
+
+        <h5>BOM</h5>
+
+    <div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Photo</th>
+
+        <th>Code</th>
+
+        <th>Name</th>
+
+        <th>Content</th>
+
+        <th>Weight</th>
+
+        <th>Vendor / Mill</th>
+
+        <th>Vendor Ref</th>
+
+        <th>Comments</th>
+
+    </thead>
+
+        {% for material in bom_materials %}
+
+    <tr>
+
+        <td><img src="{{ material.material.photo.url }}" width="60"></td>
+
+        <td>{{ material.material.code }}</td>
+
+        <td>{{ material.material.name }}</td>
+
+        <td>{{ material.material.content }}</td>
+
+        <td>{{ material.material.weight }}</td>
+
+        <td>{{ material.material.vendor_mill }}</td>
+
+        <td>{{ material.material.vendor_ref }}</td>
+
+        <td>{{ material.comment }}</td>
+
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+    </div>
+
+    </div>
+<p>
+
+<div class="container-fluid">
+
+        <h5>Handover Instructions</h5>
+
+<div class="container-fluid">
+
+                <p>{{ object.instructions }}</p>
+
+</div>
+</div>
+<div class="container-fluid">
+
+        <h5>Reference Images</h5>
+
+    <div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Image</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for image in ref_images %}
+
+    <tr>
+
+        <td><img src="{{ image.image.url }}" width="360"></td>
+
+        <td>{{ image.comment }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+</div>
+
+<div class="container-fluid">
+
+        <h5>Construction Images</h5>
+
+    <div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Image</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for image in construction_images %}
+
+    <tr>
+
+        <td><img src="{{ image.image.url }}" width="360"></td>
+
+        <td>{{ image.comment }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+</div>
+
+
+
+<div class="container-fluid">
+
+        <h5>Colourway Images</h5>
+
+    <div class="container-fluid">
+
+<table class="table" border="1">
+
+    <thead>
+
+        <th>Image</th>
+
+        <th>Comment</th>
+
+    </thead>
+
+        {% for image in colourway_images %}
+
+    <tr>
+
+        <td><img src="{{ image.image.url }}" width="360"></td>
+
+        <td>{{ image.comment }}</td>
+
+        {% endfor %}
+
+    </tr>
+
+</table>
+
+</div>
+</div>
+{% endblock %}
