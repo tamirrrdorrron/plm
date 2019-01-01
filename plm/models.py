@@ -134,3 +134,47 @@ class Image(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.product, self.type)
+
+
+class Size(models.Model):
+    size = models.CharField(max_length=50, blank=False, unique=True)
+
+    def __str__(self):
+        return self.size
+
+
+class SizeHeader(models.Model):
+    name = models.CharField(max_length=200, blank=False, unique=True)
+    size = models.ManyToManyField(Size, blank=False)
+
+    def __str__(self):
+        return self.name
+
+
+class MeasurementChart(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.PROTECT)
+    size_header = models.ForeignKey(SizeHeader, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "%s %s" % (self.product.code, self.size_header.name)
+
+
+class POMMeasurement(models.Model):
+    size = models.ForeignKey(Size, blank=False, on_delete=models.PROTECT)
+    measurement = models.DecimalField(max_digits=6, decimal_places=2, default=0.00, blank=False)
+
+    def __str__(self):
+        return "Size %s - measurement: %s cm" % (
+            self.size,
+            self.measurement
+        )
+
+
+class POM(models.Model):
+    measurement_chart = models.ForeignKey(MeasurementChart, blank=False, on_delete=models.PROTECT)
+    name = models.CharField(max_length=100, blank=True)
+    code = models.CharField(max_length=50, blank=True)
+    measurement = models.ManyToManyField(POMMeasurement, blank=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.code)

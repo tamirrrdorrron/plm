@@ -282,3 +282,29 @@ class ImageListView(ListView):
         product = models.Product.objects.filter(pk=self.kwargs['pk']).first()
         data = models.Image.objects.filter(product=product).all()
         return data
+
+
+class ProductMeasurementChart(DetailView):
+    model = models.MeasurementChart
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'plm/base_product.html'
+        product = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
+        measurement_chart = models.MeasurementChart.objects.filter(product=product).all().first()
+        context['size_header'] = measurement_chart.size_header.size.all()
+        context['poms'] = models.POM.objects.filter(measurement_chart=measurement_chart).all()
+        return context
+
+
+def add_pom(name, code, measurement_chart):
+    pom = models.POM(name=name, code=code, measurement_chart=measurement_chart)
+    pom.save()
+    sizes = [x for x in measurement_chart.size_header.size.all()]
+    for size in sizes:
+        pom_measurement = models.POMMeasurement(size=size, measurement='0.00')
+        pom_measurement.save()
+        pom.measurement.add(pom_measurement)
+
+

@@ -22,6 +22,7 @@ urlpatterns = [
     path('product/<int:pk>/bom/<int:bom_material_id_pk>', views.ProductBomUpdateView.as_view(), name='ProductBomUpdateView'),
     path('product/<int:pk>/bom/<int:bom_material_id_pk>/delete', views.ProductBomDeleteView.as_view(), name='ProductBomDeleteView'),
     path('product/<int:pk>/images', views.ImageListView.as_view(), name='ImageListView'),
+    path('product/<int:pk>/measurement_chart', views.ProductMeasurementChart.as_view(), name='ProductMeasurementChart'),
     path('product/new', views.ProductCreateView.as_view(), name='ProductCreateView'),
 
 ]
