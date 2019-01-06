@@ -297,7 +297,12 @@ class ProductMeasurementChart(DetailView):
         context['poms'] = models.POM.objects.filter(measurement_chart=measurement_chart).all()
         return context
 
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
 
+
+
+# below code is a function to set default values to a POM sizes measurements
 def add_pom(name, code, measurement_chart):
     pom = models.POM(name=name, code=code, measurement_chart=measurement_chart)
     pom.save()
@@ -308,3 +313,22 @@ def add_pom(name, code, measurement_chart):
         pom.measurement.add(pom_measurement)
 
 
+def update_pom_measurement_by_size(product_pk, pom_code, size, measurement):
+    product = models.Product.objects.filter(pk=product_pk).first()
+    measurement_chart = models.MeasurementChart.objects.filter(product=product).first()
+    size = models.Size.objects.filter(size=size).first()
+
+    pom = models.POM.objects.filter(code=pom_code, measurement_chart=measurement_chart).first()
+    pom_measurement = pom.measurement.filter(size=size).first()
+    pom_measurement.measurement = measurement
+    pom_measurement.save()
+
+
+def update_pom_code_and_description(product_pk, pom_current_code, pom_new_code, pom_new_name):
+    product = models.Product.objects.filter(pk=product_pk).first()
+    measurement_chart = models.MeasurementChart.objects.filter(product=product).first()
+    pom = models.POM.objects.filter(code=pom_current_code, measurement_chart=measurement_chart).first()
+
+    pom.code = pom_new_code
+    pom.name = pom_new_name
+    pom.save()

@@ -8,6 +8,14 @@
 
     <div class="container-fluid">
 
+    <form method="post">
+     {% csrf_token %}
+<p>
+
+    <input class="btn btn-primary" type="submit" role="button"/>
+
+</p>
+
     <table class="table" border="1">
 
     <thead>
@@ -18,7 +26,7 @@
 
         {% for size in size_header %}
 
-        <th class="text-center">{{ size }}</th>
+        <th>{{ size }}</th>
 
         {% endfor %}
 
@@ -30,11 +38,11 @@
 
             <td><input type="text" name="code" value="{{ pom.code }}"></td>
 
-            <td><input type="text" name="code" value="{{ pom.name }}"></td>
+            <td><input type="text" name="name" value="{{ pom.name }}"></td>
 
             {% for measurement in pom.measurement.all %}
 
-                <td class="text-center"><input type="text" name="code" value="{{ measurement.measurement }}"></td>
+                <td class="text-center"><input type="text" name="measurement" value="{{ measurement.measurement }}"></td>
 
             {% endfor %}
 
@@ -43,6 +51,8 @@
         </tr>
 
     </table>
+
+    </form>
 
     </div>
 </div>
