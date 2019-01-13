@@ -3,7 +3,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, D
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from plm.forms import MyForm
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, inlineformset_factory
 
 from . import models
 
@@ -292,7 +292,7 @@ def ProductMeasurementChart(request, pk):
     measurement_chart = models.MeasurementChart.objects.filter(product=product).first()
     size_header = measurement_chart.size_header.size.all()
 
-    POMFormSet = modelformset_factory(models.POM, fields=('code', 'name'))
+    POMFormSet = modelformset_factory(models.POM, fields=('code', 'name', 'measurement', 'sort'))
 
     if request.method == "POST":
         formset_pom = POMFormSet(request.POST, request.FILES)
