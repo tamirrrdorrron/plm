@@ -171,11 +171,11 @@ class POMMeasurement(models.Model):
 
 
 class POM(models.Model):
-    measurement_chart = models.ForeignKey(MeasurementChart, blank=False, on_delete=models.PROTECT)
+    measurement_chart = models.ForeignKey(MeasurementChart, blank=True, on_delete=models.PROTECT)
     name = models.CharField(max_length=100, blank=True)
     code = models.CharField(max_length=50, blank=True)
     measurement = models.ManyToManyField(POMMeasurement, blank=True)
-    sort = models.IntegerField(blank=True)
+    sort = models.IntegerField(blank=True, default=1)
 
     def __str__(self):
         return "%s %s" % (self.name, self.code)

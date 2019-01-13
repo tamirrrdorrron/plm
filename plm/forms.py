@@ -16,3 +16,17 @@ class MyForm(forms.ModelForm):
         widgets = {
             'instructions': forms.Textarea(attrs={'class': 'form-control', 'id': 'exampleFormControlTextarea1', 'rows': '5'}),
         }
+
+#
+# class MeasurementChartForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = MeasurementChart
+#         fields = ('product', 'size_header')
+#
+#
+# class POMForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = POM
+#         fields = ('name', 'code')

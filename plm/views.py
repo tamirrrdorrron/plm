@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from django.urls import reverse
+from django.shortcuts import render, redirect
 from plm.forms import MyForm
+from django.forms import modelformset_factory
 
 from . import models
 
@@ -284,21 +286,36 @@ class ImageListView(ListView):
         return data
 
 
-class ProductMeasurementChart(DetailView):
-    model = models.MeasurementChart
+def ProductMeasurementChart(request, pk):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'plm/base_product.html'
-        product = models.Product.objects.filter(pk=self.kwargs['pk']).first()
-        context['product'] = models.Product.objects.filter(pk=self.kwargs['pk']).first()
-        measurement_chart = models.MeasurementChart.objects.filter(product=product).all().first()
-        context['size_header'] = measurement_chart.size_header.size.all()
-        context['poms'] = models.POM.objects.filter(measurement_chart=measurement_chart).all()
-        return context
+    product = models.Product.objects.filter(pk=pk).first()
+    measurement_chart = models.MeasurementChart.objects.filter(product=product).first()
+    size_header = measurement_chart.size_header.size.all()
 
-    def post(self, request, *args, **kwargs):
-        print(request.POST)
+    POMFormSet = modelformset_factory(models.POM, fields=('code', 'name'))
+
+    if request.method == "POST":
+        formset_pom = POMFormSet(request.POST, request.FILES)
+        print(formset_pom.errors)
+        if formset_pom.is_valid():
+            instances = formset_pom.save(commit=False)
+            for instance in instances:
+                instance.measurement_chart = measurement_chart
+                instance.save()
+            return redirect('ProductMeasurementChart', pk=product.pk)
+
+    else:
+        formset_pom = POMFormSet(queryset=models.POM.objects.filter(measurement_chart=measurement_chart))
+
+    return render(request, 'plm/measurementchart_detail.html', {'formset_pom': formset_pom,
+                                                                'product': product,
+                                                                'size_header': size_header})
+
+
+
+
+
+
 
 
 
@@ -322,13 +339,3 @@ def update_pom_measurement_by_size(product_pk, pom_code, size, measurement):
     pom_measurement = pom.measurement.filter(size=size).first()
     pom_measurement.measurement = measurement
     pom_measurement.save()
-
-
-def update_pom_code_and_description(product_pk, pom_current_code, pom_new_code, pom_new_name):
-    product = models.Product.objects.filter(pk=product_pk).first()
-    measurement_chart = models.MeasurementChart.objects.filter(product=product).first()
-    pom = models.POM.objects.filter(code=pom_current_code, measurement_chart=measurement_chart).first()
-
-    pom.code = pom_new_code
-    pom.name = pom_new_name
-    pom.save()
