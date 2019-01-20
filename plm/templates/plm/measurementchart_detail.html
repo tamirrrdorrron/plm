@@ -45,9 +45,27 @@
 
                     <td>{{ form.name }}</td>
 
+                    {% if form.instance.pk %}
+
+                        {% for meas in form.instance.measurement.all %}
+
+                            <td>{{ meas.label_tag }} {{ meas.measurement }}</td>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        {% for size in size_header %}
+
+                            <td>0.00</td>
+
+                        {% endfor %}
+
+                    {% endif %}
+
             </tr>
 
-        {%  endfor %}
+        {% endfor %}
 
     </table>
 
