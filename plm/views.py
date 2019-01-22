@@ -309,7 +309,7 @@ def ProductMeasurementChart(request, pk):
 
     return render(request, 'plm/measurementchart_detail.html', {'formset_pom': formset_pom,
                                                                 'product': product,
-                                                                'size_header': size_header})
+                                                                'size_header': size_header,})
 
 
 

@@ -34,6 +34,24 @@
 
     </thead>
 
+{#        {% for row in table %}#}
+{##}
+{#            <tr>#}
+{##}
+{#            <td>{{ row.code }}</td>#}
+{##}
+{#            <td>{{ row.name }}</td>#}
+{##}
+{#            {% for key, value in row.sizes.items %}#}
+{##}
+{#                <td>{{ value }}</td>#}
+{##}
+{#            {% endfor %}#}
+{##}
+{#            </tr>#}
+{##}
+{#        {% endfor %}#}
+
         {{ formset_pom.management_form }}
         {%  for form in formset_pom %}
 
@@ -49,7 +67,7 @@
 
                         {% for meas in form.instance.measurement.all %}
 
-                            <td>{{ meas.label_tag }} {{ meas.measurement }}</td>
+                            <td>{{ meas.measurement }}</td>
 
                         {% endfor %}
 
