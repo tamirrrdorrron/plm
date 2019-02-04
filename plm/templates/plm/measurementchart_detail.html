@@ -63,23 +63,23 @@
 
                     <td>{{ form.name }}</td>
 
-                    {% if form.instance.pk %}
-
-                        {% for meas in form.instance.measurement.all %}
-
-                            <td>{{ meas.measurement }}</td>
-
-                        {% endfor %}
-
-                    {% else %}
-
-                        {% for size in size_header %}
-
-                            <td>0.00</td>
-
-                        {% endfor %}
-
-                    {% endif %}
+{#                    {% if form.instance.pk %}#}
+{##}
+{#                        {% for meas in form.instance.measurement.all %}#}
+{##}
+{#                            <td><input name="{{ form.prefix }}-measurement" value="{{ meas.measurement }}"/></td>#}
+{##}
+{#                        {% endfor %}#}
+{##}
+{#                    {% else %}#}
+{##}
+{#                        {% for size in size_header %}#}
+{##}
+{#                            <td>0.00</td>#}
+{##}
+{#                        {% endfor %}#}
+{##}
+{#                    {% endif %}#}
 
             </tr>
 

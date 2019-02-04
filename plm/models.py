@@ -159,23 +159,23 @@ class MeasurementChart(models.Model):
         return "%s %s" % (self.product.code, self.size_header.name)
 
 
+class POM(models.Model):
+    measurement_chart = models.ForeignKey(MeasurementChart, blank=True, on_delete=models.PROTECT)
+    name = models.CharField(max_length=100, blank=True)
+    code = models.CharField(max_length=50, blank=True)
+    sort = models.IntegerField(blank=True, default=1)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.code)
+
+
 class POMMeasurement(models.Model):
     size = models.ForeignKey(Size, blank=False, on_delete=models.PROTECT)
     measurement = models.DecimalField(max_digits=6, decimal_places=2, default=0.00, blank=False)
+    pom = models.ForeignKey(POM, blank=False, on_delete=models.PROTECT)
 
     def __str__(self):
         return "Size %s - measurement: %s cm" % (
             self.size,
             self.measurement
         )
-
-
-class POM(models.Model):
-    measurement_chart = models.ForeignKey(MeasurementChart, blank=True, on_delete=models.PROTECT)
-    name = models.CharField(max_length=100, blank=True)
-    code = models.CharField(max_length=50, blank=True)
-    measurement = models.ManyToManyField(POMMeasurement, blank=True)
-    sort = models.IntegerField(blank=True, default=1)
-
-    def __str__(self):
-        return "%s %s" % (self.name, self.code)

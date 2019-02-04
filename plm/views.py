@@ -292,11 +292,15 @@ def ProductMeasurementChart(request, pk):
     measurement_chart = models.MeasurementChart.objects.filter(product=product).first()
     size_header = measurement_chart.size_header.size.all()
 
-    POMFormSet = modelformset_factory(models.POM, fields=('code', 'name', 'measurement', 'sort'), extra=1)
+    fields = ['code', 'name', 'sort']
+
+    POMFormSet = modelformset_factory(models.POM, fields=fields, extra=1)
 
     if request.method == "POST":
         formset_pom = POMFormSet(request.POST, request.FILES)
         print(formset_pom.errors)
+        # for i in formset_pom:
+        #     print(i.cleaned_data['measurement'])
         if formset_pom.is_valid():
             instances = formset_pom.save(commit=False)
             for instance in instances:
